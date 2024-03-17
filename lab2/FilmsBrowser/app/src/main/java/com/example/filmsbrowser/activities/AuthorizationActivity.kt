@@ -1,4 +1,4 @@
-package com.example.filmsbrowser
+package com.example.filmsbrowser.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,6 @@ import com.google.firebase.database.FirebaseDatabase
 
 class AuthorizationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: FirebaseDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +17,6 @@ class AuthorizationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance()
 
         binding.btnSignIn.setOnClickListener {
             val email = binding.etEmail.text.toString()

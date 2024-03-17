@@ -1,9 +1,10 @@
-package com.example.filmsbrowser
+package com.example.filmsbrowser.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.filmsbrowser.data.User
 import com.example.filmsbrowser.databinding.ActivityRegistrationBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -63,14 +64,9 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun addUser(login: String, email: String) {
-        val user: FirebaseUser = auth.currentUser!!
-
         val users = FirebaseDatabase.getInstance().getReference("users").push()
-        val newUser = HashMap<String, String>()
-        newUser["login"] = login
-        newUser["uid"] = user.uid
-        newUser["email"] = email
 
+        val newUser = User(login, email)
         users.setValue(newUser).addOnCompleteListener {
             if (it.isSuccessful) {
                 val intent = Intent(this@RegistrationActivity, FilmsListActivity::class.java)
