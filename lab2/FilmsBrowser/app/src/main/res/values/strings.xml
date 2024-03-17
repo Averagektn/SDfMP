@@ -6,4 +6,6 @@
     <string name="enter_password">Enter password</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
+    <string name="sign_up_title">SIGN UP</string>
+    <string name="sign_in_title">SIGN IN</string>
 </resources>

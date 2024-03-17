@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: FirebaseDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +19,8 @@ class RegistrationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+
         binding.btnSignUp.setOnClickListener {
             val login = binding.etLogin.text.toString()
             val email = binding.etEmail.text.toString()
@@ -33,16 +36,20 @@ class RegistrationActivity : AppCompatActivity() {
                 registration(login, email, password)
             }
         }
+
+        binding.btnSignIn.setOnClickListener {
+            val intent = Intent(this@RegistrationActivity, AuthorizationActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun registration(login: String, email: String, password: String) {
-
-        val database = FirebaseDatabase.getInstance()
         val usersRef = database.getReference("users")
         val query = usersRef.orderByChild("login").equalTo(login)
+
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful && !task.result.exists()) {
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { it ->
+                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) {
                     if (it.isSuccessful) {
                         addUser(login, email)
                     } else {
