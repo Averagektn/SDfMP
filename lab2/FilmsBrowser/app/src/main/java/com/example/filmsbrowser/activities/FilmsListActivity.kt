@@ -7,10 +7,12 @@ import com.example.filmsbrowser.databinding.ActivityAuthorizationBinding
 import com.example.filmsbrowser.databinding.ActivityFilmsListBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 
 class FilmsListActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
+    private lateinit var storage: FirebaseStorage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +21,6 @@ class FilmsListActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
+        storage = FirebaseStorage.getInstance()
     }
-
-
 }
