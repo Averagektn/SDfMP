@@ -36,28 +36,41 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun registration(login: String, email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { it ->
-                if (it.isSuccessful) {
-                    val user: FirebaseUser = auth.currentUser!!
 
-                    val usersRef = FirebaseDatabase.getInstance().getReference("users")
-                    val newUser = HashMap<String, String>()
-                    newUser["login"] = login
-                    newUser["uid"] = user.uid
-                    newUser["email"] = email
-
-                    usersRef.setValue(newUser).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            val intent = Intent(this@RegistrationActivity, FilmsListActivity::class.java)
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(applicationContext, "Registration failed", Toast.LENGTH_SHORT).show()
-                        }
+        val database = FirebaseDatabase.getInstance()
+        val usersRef = database.getReference("users")
+        val query = usersRef.orderByChild("login").equalTo(login)
+        query.get().addOnCompleteListener { task ->
+            if (task.isSuccessful && !task.result.exists()) {
+                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { it ->
+                    if (it.isSuccessful) {
+                        addUser(login, email)
+                    } else {
+                        Toast.makeText(applicationContext, "Registration failed", Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(applicationContext, "Registration failed", Toast.LENGTH_SHORT).show()
                 }
+            } else {
+                Toast.makeText(applicationContext, "This login is already in use", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun addUser(login: String, email: String) {
+        val user: FirebaseUser = auth.currentUser!!
+
+        val users = FirebaseDatabase.getInstance().getReference("users").push()
+        val newUser = HashMap<String, String>()
+        newUser["login"] = login
+        newUser["uid"] = user.uid
+        newUser["email"] = email
+
+        users.setValue(newUser).addOnCompleteListener {
+            if (it.isSuccessful) {
+                val intent = Intent(this@RegistrationActivity, FilmsListActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(applicationContext, "Registration failed", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
