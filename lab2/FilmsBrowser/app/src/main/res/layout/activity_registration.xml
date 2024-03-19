@@ -15,7 +15,7 @@
             android:textStyle="bold"
             android:layout_marginStart="15dp"
             android:layout_marginBottom="10dp"
-            android:textSize="20sp"
+            android:textSize="40sp"
     />
 
     <LinearLayout
@@ -33,7 +33,6 @@
                 android:hint="@string/enter_login"
                 android:id="@+id/etLogin"
                 android:textColor="@color/colorText"
-                android:background="@color/colorTextBackground"
                 android:autofillHints="name"
                 android:inputType="text"
                 android:textColorHint="@color/colorTextHint"/>
@@ -48,7 +47,6 @@
                 android:hint="@string/enter_email"
                 android:id="@+id/etEmail"
                 android:textColor="@color/colorText"
-                android:background="@color/colorTextBackground"
                 android:autofillHints="emailAddress"
                 android:inputType="textEmailAddress"
                 android:textColorHint="@color/colorTextHint"/>
@@ -63,7 +61,6 @@
                 android:hint="@string/enter_password"
                 android:id="@+id/etPassword"
                 android:textColor="@color/colorText"
-                android:background="@color/colorTextBackground"
                 android:autofillHints="password"
                 android:inputType="textPassword"
                 android:textColorHint="@color/colorTextHint"/>
@@ -73,8 +70,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="@color/colorAccent"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColor="@color/colorTextBackground"
+                android:textSize="20sp"
                 android:text="@string/sign_up"/>
 
         <Button
@@ -82,9 +80,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:background="@color/buttonGray"
+                android:backgroundTint="@color/buttonGray"
                 android:textColor="@color/colorTextBackground"
-                android:text="@string/sign_in"/>
+                android:text="@string/sign_in"
+                android:textSize="20sp"/>
     </LinearLayout>
 
 </LinearLayout>
