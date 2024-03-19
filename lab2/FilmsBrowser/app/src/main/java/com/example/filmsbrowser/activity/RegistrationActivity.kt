@@ -65,7 +65,7 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun addUser(login: String, email: String) {
-        val users = FirebaseDatabase.getInstance().getReference("users").push()
+        val users = FirebaseDatabase.getInstance().getReference("users").child(auth.currentUser!!.uid)
 
         val newUser = User(login, email)
         users.setValue(newUser).addOnCompleteListener {

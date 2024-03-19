@@ -1,8 +1,10 @@
 package com.example.filmsbrowser.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmsbrowser.adapter.FilmListAdapter
@@ -31,6 +33,7 @@ class FilmsListActivity : AppCompatActivity() {
         storage = FirebaseStorage.getInstance()
 
         binding.filmsList.layoutManager = LinearLayoutManager(this)
+
         binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -40,6 +43,17 @@ class FilmsListActivity : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {}
         })
+
+        binding.btnToFavored.setOnClickListener {
+            val intent = Intent(this@FilmsListActivity, FavoredActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnToProfile.setOnClickListener {
+            val intent = Intent(this@FilmsListActivity, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         loadFilms()
     }
 
@@ -62,7 +76,9 @@ class FilmsListActivity : AppCompatActivity() {
                 binding.filmsList.adapter = filmListAdapter
             }
 
-            override fun onCancelled(p0: DatabaseError) {}
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@FilmsListActivity, "Check your Internet connection", Toast.LENGTH_LONG).show()
+            }
         })
     }
 }
