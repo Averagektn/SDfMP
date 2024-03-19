@@ -1,7 +1,7 @@
 package com.example.filmsbrowser.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.filmsbrowser.R
 
 class FilmActivity : AppCompatActivity() {

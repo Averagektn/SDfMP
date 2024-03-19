@@ -13,4 +13,6 @@
     <string name="to_films_list">To films list</string>
     <string name="to_profile">To profile</string>
     <string name="to_favored">To favored</string>
+    <string name="edit">Edit</string>
+    <string name="profile_picture">Profile picture</string>
 </resources>
