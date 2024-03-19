@@ -12,8 +12,8 @@ import com.example.filmsbrowser.model.Film
 import com.example.filmsbrowser.databinding.ItemFilmBinding
 import com.example.filmsbrowser.filtering.FilterFilm
 
-class FilmAdapter(private val context: Context, var films: ArrayList<Film>) :
-    RecyclerView.Adapter<FilmAdapter.FilmHolder>(), Filterable {
+class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) :
+    RecyclerView.Adapter<FilmListAdapter.FilmHolder>(), Filterable {
     private lateinit var binding: ItemFilmBinding
     private var filter: FilterFilm? = null
     private var filterList: ArrayList<Film> = films

@@ -1,10 +1,10 @@
 package com.example.filmsbrowser.filtering
 
 import android.widget.Filter
-import com.example.filmsbrowser.adapter.FilmAdapter
+import com.example.filmsbrowser.adapter.FilmListAdapter
 import com.example.filmsbrowser.model.Film
 
-class FilterFilm(private var filterList: List<Film>, private var filmAdapter: FilmAdapter) : Filter() {
+class FilterFilm(private var filterList: List<Film>, private var filmListAdapter: FilmListAdapter) : Filter() {
     /**
      *
      * Invoked in a worker thread to filter the data according to the
@@ -60,10 +60,10 @@ class FilterFilm(private var filterList: List<Film>, private var filmAdapter: Fi
      */
     override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
         if (results != null && results.count > 0) {
-            filmAdapter.films = results.values as ArrayList<Film>
+            filmListAdapter.films = results.values as ArrayList<Film>
         } else {
-            filmAdapter.films.clear()
+            filmListAdapter.films.clear()
         }
-        filmAdapter.notifyDataSetChanged()
+        filmListAdapter.notifyDataSetChanged()
     }
 }

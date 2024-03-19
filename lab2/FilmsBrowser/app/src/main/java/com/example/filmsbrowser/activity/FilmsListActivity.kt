@@ -5,7 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.filmsbrowser.adapter.FilmAdapter
+import com.example.filmsbrowser.adapter.FilmListAdapter
 import com.example.filmsbrowser.databinding.ActivityFilmsListBinding
 import com.example.filmsbrowser.model.Film
 import com.google.firebase.database.DataSnapshot
@@ -20,7 +20,7 @@ class FilmsListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFilmsListBinding
 
     private lateinit var films: ArrayList<Film>
-    private lateinit var filmAdapter: FilmAdapter
+    private lateinit var filmListAdapter: FilmListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class FilmsListActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                filmAdapter.filter.filter(s)
+                filmListAdapter.filter.filter(s)
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -58,8 +58,8 @@ class FilmsListActivity : AppCompatActivity() {
                     }
                 }
 
-                filmAdapter = FilmAdapter(this@FilmsListActivity, films)
-                binding.filmsList.adapter = filmAdapter
+                filmListAdapter = FilmListAdapter(this@FilmsListActivity, films)
+                binding.filmsList.adapter = filmListAdapter
             }
 
             override fun onCancelled(p0: DatabaseError) {}
