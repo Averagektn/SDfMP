@@ -64,5 +64,6 @@ class FilterFilm(private var filterList: List<Film>, private var filmAdapter: Fi
         } else {
             filmAdapter.films.clear()
         }
+        filmAdapter.notifyDataSetChanged()
     }
 }
