@@ -1,11 +1,11 @@
-package com.example.filmsbrowser.activities
+package com.example.filmsbrowser.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.filmsbrowser.data.User
+import com.example.filmsbrowser.model.User
 import com.example.filmsbrowser.databinding.ActivityRegistrationBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
