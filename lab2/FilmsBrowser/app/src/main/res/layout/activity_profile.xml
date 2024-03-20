@@ -18,6 +18,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
         <ImageButton
+                android:id="@+id/btnEditLogin"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
@@ -42,6 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
         <ImageButton
+                android:id="@+id/btnEditBirthDate"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
@@ -61,6 +63,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
         <ImageButton
+                android:id="@+id/btnEditUserInformation"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
@@ -80,6 +83,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
         <ImageButton
+                android:id="@+id/btnEditUserName"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
@@ -99,6 +103,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
         <ImageButton
+                android:id="@+id/btnEditSurname"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
@@ -118,6 +123,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
         <ImageButton
+                android:id="@+id/btnEditPatronymic"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
@@ -137,6 +143,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
         <ImageButton
+                android:id="@+id/btnEditGender"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
@@ -156,6 +163,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
         <ImageButton
+                android:id="@+id/btnEditCountry"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
@@ -169,7 +177,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/profile_picture"
             android:layout_above="@id/linearContainer"
-            android:layout_below="@id/layoutCountry" tools:srcCompat="@android:drawable/ic_menu_gallery"/>
+            android:layout_below="@id/layoutCountry"/>
 
     <LinearLayout
             android:id="@+id/linearContainer"

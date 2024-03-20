@@ -10,7 +10,6 @@ class User() {
     var patronymic: String = ""
     var gender: String = ""
     var country: String = ""
-    var photoFileName: String = ""
 
     constructor(login: String, email: String) : this() {
         this.login = login
