@@ -91,10 +91,14 @@ class ProfileActivity : AppCompatActivity() {
             }
 
             builder.setNegativeButton("Delete user forever") { _, _ ->
+                val uid = auth.currentUser!!.uid
                 val currentUser = FirebaseAuth.getInstance().currentUser
                 currentUser?.delete()
                     ?.addOnCompleteListener { task ->
                         if (task.isSuccessful) {
+                            database.getReference("users/$uid").removeValue()
+                            storage.getReference("profile_photos/$uid").delete()
+                            database.getReference("favored/$uid").removeValue()
                             auth.signOut()
                             val intent = Intent(this, RegistrationActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
