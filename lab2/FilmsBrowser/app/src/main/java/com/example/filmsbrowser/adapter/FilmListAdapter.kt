@@ -28,8 +28,8 @@ class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) 
         var image = binding.filmImage
     }
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): FilmHolder {
-        binding = ItemFilmBinding.inflate(LayoutInflater.from(context), p0, false)
+    override fun onCreateViewHolder(group: ViewGroup, ind: Int): FilmHolder {
+        binding = ItemFilmBinding.inflate(LayoutInflater.from(context), group, false)
 
         return FilmHolder(binding.root)
     }

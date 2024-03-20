@@ -16,8 +16,10 @@ class User() {
         this.email = email
     }
 
-    constructor(login: String, email: String, birtDate: String, info: String, username: String, surname: String,
-                patronymic: String, gender: String, country: String) : this(login, email){
+    constructor(
+        login: String, email: String, birtDate: String, info: String, username: String, surname: String,
+        patronymic: String, gender: String, country: String
+    ) : this(login, email) {
         this.birthDate = birtDate
         this.information = info
         this.username = username
