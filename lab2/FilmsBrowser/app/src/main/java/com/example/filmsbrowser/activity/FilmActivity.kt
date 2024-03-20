@@ -3,12 +3,12 @@ package com.example.filmsbrowser.activity
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.filmsbrowser.R
+import com.example.filmsbrowser.adapter.ImageSliderAdapter
 import com.example.filmsbrowser.databinding.ActivityFilmBinding
-import com.example.filmsbrowser.databinding.ActivityProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.tasks.await
 
 class FilmActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -28,5 +28,20 @@ class FilmActivity : AppCompatActivity() {
         storage = FirebaseStorage.getInstance()
 
         filmId = intent.getStringExtra("filmId")!!
+
+        val storageRef = storage.getReference("film_images/$filmId")
+        storageRef.listAll()
+            .addOnSuccessListener { listResult ->
+                val uriList = ArrayList<Uri>()
+                val sliderAdapter = ImageSliderAdapter(this, uriList)
+                for(elem in listResult.items){
+                    elem.downloadUrl.addOnSuccessListener {
+                        uriList.add(it)
+                        sliderAdapter.notifyDataSetChanged()
+                    }
+                }
+
+                binding.viewPager.adapter = sliderAdapter
+            }
     }
 }
