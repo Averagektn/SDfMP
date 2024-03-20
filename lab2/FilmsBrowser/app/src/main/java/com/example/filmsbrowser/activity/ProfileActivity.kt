@@ -3,8 +3,11 @@ package com.example.filmsbrowser.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.filmsbrowser.databinding.ActivityProfileBinding
@@ -44,7 +47,63 @@ class ProfileActivity : AppCompatActivity() {
             pickImageIntent()
         }
 
+        binding.btnEditLogin.setOnClickListener {
+            showEditText("Login", binding.tvUserLogin)
+        }
+
+        binding.btnEditGender.setOnClickListener {
+            showEditText("Gender", binding.tvUserGender)
+        }
+
+        binding.btnEditCountry.setOnClickListener {
+            showEditText("Country", binding.tvUserCountry)
+        }
+
+        binding.btnEditSurname.setOnClickListener {
+            showEditText("Surname", binding.tvUserSurname)
+        }
+
+        binding.btnEditUserName.setOnClickListener {
+            showEditText("Username", binding.tvUserName)
+        }
+
+        binding.btnEditBirthDate.setOnClickListener {
+            showEditText("BirthDate", binding.tvUserBirthDate)
+        }
+
+        binding.btnEditPatronymic.setOnClickListener {
+            showEditText("Patronymic", binding.tvUserPatronymic)
+        }
+
+        binding.btnEditUserInformation.setOnClickListener {
+            showEditText("Information", binding.tvUserInformation)
+        }
+
         showData()
+    }
+
+    private fun showEditText(childField: String, textView: TextView) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(childField)
+
+        val input = EditText(this)
+        builder.setView(input)
+
+        builder.setPositiveButton("ОК") { _, _ ->
+            val newValue = input.text.toString()
+            database.getReference("users").child(auth.currentUser!!.uid).child(childField.lowercase())
+                .setValue(newValue)
+                .addOnCompleteListener {
+                    textView.text = String.format("$childField: $newValue")
+                }
+        }
+
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.cancel()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun saveImage() {
@@ -74,7 +133,7 @@ class ProfileActivity : AppCompatActivity() {
 
                 binding.tvUserLogin.text = String.format("Login: %s", model?.login)
                 binding.tvUserEmail.text = String.format("Email: %s", model?.email)
-                binding.tvUserName.text = String.format("Name: %s", model?.username)
+                binding.tvUserName.text = String.format("Username: %s", model?.username)
                 binding.tvUserGender.text = String.format("Gender: %s", model?.gender)
                 binding.tvUserCountry.text = String.format("Country: %s", model?.country)
                 binding.tvUserPatronymic.text = String.format("Patronymic: %s", model?.patronymic)
@@ -94,7 +153,7 @@ class ProfileActivity : AppCompatActivity() {
                     .centerCrop()
                     .into(binding.userImage)
             }
-            .addOnFailureListener() {
+            .addOnFailureListener {
                 Toast.makeText(this, "Loading failed: ${it.message}", Toast.LENGTH_LONG).show()
             }
     }
