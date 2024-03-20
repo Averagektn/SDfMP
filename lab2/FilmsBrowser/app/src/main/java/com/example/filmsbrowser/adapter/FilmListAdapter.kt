@@ -52,7 +52,6 @@ class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) 
                 .into(holder.image)
         }
 
-
         holder.itemView.setOnClickListener {
             val intent = Intent(context, FilmActivity::class.java)
             intent.putExtra("filmId", model.id)

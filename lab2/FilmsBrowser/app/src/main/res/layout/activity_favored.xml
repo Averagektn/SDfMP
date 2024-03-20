@@ -5,6 +5,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.FavoredActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filmsList"
+            tools:listitem="@layout/item_favored"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/linearContainer"/>
+
     <LinearLayout
             android:id="@+id/linearContainer"
             android:layout_width="match_parent"

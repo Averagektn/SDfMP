@@ -69,7 +69,21 @@ class FilmActivity : AppCompatActivity() {
         }
 
         binding.btnAddToFavored.setOnClickListener {
-            // Adding to favored
+            val ref = database.getReference("favored/${auth.currentUser!!.uid}")
+            ref.get().addOnSuccessListener {
+                val itemsList = mutableListOf<String>()
+
+                for (childSnapshot in it.children) {
+                    val listItem = childSnapshot.getValue(String::class.java)
+                    if (listItem != null) {
+                        itemsList.add(listItem)
+                    }
+                }
+
+                itemsList.add(filmId)
+
+                ref.setValue(itemsList)
+            }
         }
     }
 }
