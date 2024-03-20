@@ -79,6 +79,37 @@ class ProfileActivity : AppCompatActivity() {
             showEditText("Information", binding.tvUserInformation)
         }
 
+        binding.btnLogOut.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Select action")
+
+            builder.setPositiveButton("Log out") { _, _ ->
+                auth.signOut()
+                val intent = Intent(this, AuthorizationActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+
+            builder.setNegativeButton("Delete user forever") { _, _ ->
+                val currentUser = FirebaseAuth.getInstance().currentUser
+                currentUser?.delete()
+                    ?.addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            auth.signOut()
+                            val intent = Intent(this, RegistrationActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                            Toast.makeText(this, "Deleted successfully", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this, "Error deleting user", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+        }
+
         showData()
     }
 
@@ -118,9 +149,6 @@ class ProfileActivity : AppCompatActivity() {
                         .into(binding.userImage)
                 }
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Loading failed: ${it.message}", Toast.LENGTH_LONG).show()
-            }
     }
 
 
@@ -152,9 +180,6 @@ class ProfileActivity : AppCompatActivity() {
                     .load(uri)
                     .centerCrop()
                     .into(binding.userImage)
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Loading failed: ${it.message}", Toast.LENGTH_LONG).show()
             }
     }
 

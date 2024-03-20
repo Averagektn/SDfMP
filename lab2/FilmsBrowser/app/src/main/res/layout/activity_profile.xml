@@ -8,10 +8,30 @@
         android:orientation="vertical">
 
     <LinearLayout
-            android:id="@+id/layoutLogin"
+            android:id="@+id/layoutEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+        <TextView
+                android:id="@+id/tvUserEmail"
+                style="@style/ProfileTextViewStyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+        <ImageButton
+                android:id="@+id/btnLogOut"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:src="@android:drawable/ic_delete"
+                android:contentDescription="@string/edit"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/layoutLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/layoutEmail">
         <TextView
                 android:id="@+id/tvUserLogin"
                 style="@style/ProfileTextViewStyle"
@@ -26,17 +46,12 @@
                 android:contentDescription="@string/edit"/>
     </LinearLayout>
 
-    <TextView
-            android:id="@+id/tvUserEmail"
-            style="@style/ProfileTextViewStyle"
-            android:layout_below="@id/layoutLogin"/>
-
     <LinearLayout
             android:id="@+id/layoutBirthDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@id/tvUserEmail">
+            android:layout_below="@id/layoutLogin">
         <TextView
                 android:id="@+id/tvUserBirthDate"
                 style="@style/ProfileTextViewStyle"

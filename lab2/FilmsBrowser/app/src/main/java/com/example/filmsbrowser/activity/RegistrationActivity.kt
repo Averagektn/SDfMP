@@ -71,6 +71,7 @@ class RegistrationActivity : AppCompatActivity() {
         users.setValue(newUser).addOnCompleteListener {
             if (it.isSuccessful) {
                 val intent = Intent(this@RegistrationActivity, FilmsListActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             } else {
                 Toast.makeText(applicationContext, "Registration failed", Toast.LENGTH_SHORT).show()
