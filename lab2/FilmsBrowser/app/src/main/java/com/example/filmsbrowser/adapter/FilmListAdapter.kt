@@ -1,6 +1,7 @@
 package com.example.filmsbrowser.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.filmsbrowser.activity.FilmActivity
 import com.example.filmsbrowser.databinding.ItemFilmBinding
 import com.example.filmsbrowser.filtering.FilterFilm
 import com.example.filmsbrowser.model.Film
@@ -41,7 +43,8 @@ class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) 
         p0.name.text = name
         p0.categories.text = categories
         p0.itemView.setOnClickListener {
-            Toast.makeText(context, "CLICKED", Toast.LENGTH_LONG).show()
+            val intent = Intent(context, FilmActivity::class.java)
+            intent.putExtra("filmId", p0.itemId)
         }
     }
 
