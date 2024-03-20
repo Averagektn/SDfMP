@@ -65,9 +65,11 @@ class FilmsListActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 films.clear()
                 for (elem in snapshot.children) {
+                    val filmId = elem.key
                     val model = elem.getValue(Film::class.java)
 
                     if (model != null) {
+                        model.id = filmId!!
                         films.add(model)
                     }
                 }

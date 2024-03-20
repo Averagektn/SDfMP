@@ -7,22 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.filmsbrowser.activity.FilmActivity
 import com.example.filmsbrowser.databinding.ItemFilmBinding
 import com.example.filmsbrowser.filtering.FilterFilm
 import com.example.filmsbrowser.model.Film
+import com.google.firebase.storage.FirebaseStorage
 
 class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) :
     RecyclerView.Adapter<FilmListAdapter.FilmHolder>(), Filterable {
     private lateinit var binding: ItemFilmBinding
     private var filter: FilterFilm? = null
     private var filterList: ArrayList<Film> = films
+    private val storage: FirebaseStorage = FirebaseStorage.getInstance()
 
     inner class FilmHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name = binding.tvFilmName
         var categories = binding.tvFilmCategories
+        var image = binding.filmImage
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): FilmHolder {
@@ -35,16 +38,25 @@ class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) 
         return films.size
     }
 
-    override fun onBindViewHolder(p0: FilmHolder, p1: Int) {
-        val model = films[p1]
-        val name = model.name
-        val categories = model.categories.joinToString(", ")
+    override fun onBindViewHolder(holder: FilmHolder, ind: Int) {
+        val model = films[ind]
+        holder.name.text = model.name
+        holder.categories.text = model.categories.joinToString(", ")
 
-        p0.name.text = name
-        p0.categories.text = categories
-        p0.itemView.setOnClickListener {
+        val storageRef = storage.getReference("posters/${model.id}")
+        storageRef.downloadUrl.addOnSuccessListener { uri ->
+            Glide
+                .with(holder.itemView)
+                .load(uri)
+                .centerCrop()
+                .into(holder.image)
+        }
+
+
+        holder.itemView.setOnClickListener {
             val intent = Intent(context, FilmActivity::class.java)
-            intent.putExtra("filmId", p0.itemId)
+            intent.putExtra("filmId", model.id)
+            context.startActivity(intent)
         }
     }
 
