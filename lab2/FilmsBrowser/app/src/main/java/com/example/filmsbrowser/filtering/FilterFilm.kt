@@ -59,11 +59,9 @@ class FilterFilm(private var filterList: List<Film>, private var filmListAdapter
      * @see android.widget.Filter.FilterResults
      */
     override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-        if (results != null && results.count > 0) {
+        if (results != null) {
             filmListAdapter.films = results.values as ArrayList<Film>
-        } else {
-            filmListAdapter.films.clear()
+            filmListAdapter.notifyDataSetChanged()
         }
-        filmListAdapter.notifyDataSetChanged()
     }
 }
