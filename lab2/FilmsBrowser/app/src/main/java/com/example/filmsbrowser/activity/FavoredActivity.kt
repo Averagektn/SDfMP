@@ -61,6 +61,7 @@ class FavoredActivity : AppCompatActivity() {
             filmsRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     films.clear()
+
                     for (elem in snapshot.children) {
                         if (itemsList.contains(elem.key)) {
                             val model = elem.getValue(Film::class.java)

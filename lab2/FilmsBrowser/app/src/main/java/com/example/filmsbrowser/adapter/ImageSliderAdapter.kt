@@ -16,7 +16,13 @@ class ImageSliderAdapter(private val context: Context, private val images: List<
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.slider_item, container, false)
         val imageView = view.findViewById<ImageView>(R.id.imageView)
-        Glide.with(context).load(images[position]).into(imageView)
+
+        Glide
+            .with(context)
+            .load(images[position])
+            .centerInside()
+            .into(imageView)
+
         container.addView(view)
         return view
     }

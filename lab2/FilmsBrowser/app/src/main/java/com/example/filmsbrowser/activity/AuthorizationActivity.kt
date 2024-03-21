@@ -19,7 +19,9 @@ class AuthorizationActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        binding.btnSignIn.setOnClickListener { authorize(it) }
+        binding.btnSignIn.setOnClickListener {
+            authorize(it)
+        }
 
         binding.btnSignUp.setOnClickListener {
             val intent = Intent(this@AuthorizationActivity, RegistrationActivity::class.java)

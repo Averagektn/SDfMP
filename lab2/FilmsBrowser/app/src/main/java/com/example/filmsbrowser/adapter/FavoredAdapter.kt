@@ -1,11 +1,13 @@
 package com.example.filmsbrowser.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.filmsbrowser.activity.FilmActivity
 import com.example.filmsbrowser.databinding.ItemFavoredBinding
 import com.example.filmsbrowser.model.Film
 import com.google.firebase.auth.FirebaseAuth
@@ -37,18 +39,21 @@ class FavoredAdapter(private val context: Context, private var films: ArrayList<
         return films.size
     }
 
-    override fun onBindViewHolder(holder: FilmHolder, ind: Int) {
-        val model = films[ind]
+    override fun onBindViewHolder(holder: FilmHolder, position: Int) {
+        val model = films[position]
         holder.name.text = model.name
         holder.categories.text = model.categories.joinToString(", ")
 
+        holder.image.setImageDrawable(null)
+
         val storageRef = storage.getReference("posters/${model.id}")
         storageRef.downloadUrl.addOnSuccessListener { uri ->
-            Glide
-                .with(holder.itemView)
-                .load(uri)
-                .centerCrop()
-                .into(holder.image)
+            if (position == holder.adapterPosition) {
+                Glide.with(holder.itemView)
+                    .load(uri)
+                    .centerInside()
+                    .into(holder.image)
+            }
         }
 
         holder.delete.setOnClickListener {
@@ -70,6 +75,12 @@ class FavoredAdapter(private val context: Context, private var films: ArrayList<
                     notifyDataSetChanged()
                 }
             }
+        }
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, FilmActivity::class.java)
+            intent.putExtra("filmId", model.id)
+            context.startActivity(intent)
         }
     }
 }

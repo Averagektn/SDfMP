@@ -31,65 +31,56 @@
     <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="500dp"/>
+            android:layout_height="300dp"/>
+
     <TextView
             android:id="@+id/tvCategories"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
 
     <TextView
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    <RelativeLayout
+    <LinearLayout
+            android:id="@+id/linearContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/filmsList"
-                tools:listitem="@layout/item_film"
-                android:layout_width="match_parent"
+        <Button
+                android:id="@+id/btnToFavored"
+                android:text="@string/to_favored"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/linearContainer"/>
+                android:layout_weight="1"
+                android:layout_marginHorizontal="7dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColor="@color/colorTextBackground"/>
 
-        <LinearLayout
-                android:id="@+id/linearContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentBottom="true">
+        <Button
+                android:id="@+id/btnToFilmsList"
+                android:text="@string/to_films_list"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="7dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColor="@color/colorTextBackground"/>
 
-            <Button
-                    android:id="@+id/btnToFavored"
-                    android:text="@string/to_favored"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginHorizontal="7dp"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:textColor="@color/colorTextBackground"/>
-
-            <Button
-                    android:id="@+id/btnToFilmsList"
-                    android:text="@string/to_films_list"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginHorizontal="7dp"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:textColor="@color/colorTextBackground"/>
-
-            <Button
-                    android:id="@+id/btnToProfile"
-                    android:text="@string/to_profile"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginHorizontal="7dp"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:textColor="@color/colorTextBackground"/>
-        </LinearLayout>
-    </RelativeLayout>
+        <Button
+                android:id="@+id/btnToProfile"
+                android:text="@string/to_profile"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="7dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColor="@color/colorTextBackground"/>
+    </LinearLayout>
 
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.filmsbrowser.R
 import com.example.filmsbrowser.activity.FilmActivity
 import com.example.filmsbrowser.databinding.ItemFilmBinding
 import com.example.filmsbrowser.filtering.FilterFilm
@@ -38,18 +39,21 @@ class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) 
         return films.size
     }
 
-    override fun onBindViewHolder(holder: FilmHolder, ind: Int) {
-        val model = films[ind]
+    override fun onBindViewHolder(holder: FilmHolder, position: Int) {
+        val model = films[position]
         holder.name.text = model.name
         holder.categories.text = model.categories.joinToString(", ")
 
+        holder.image.setImageDrawable(null)
+
         val storageRef = storage.getReference("posters/${model.id}")
         storageRef.downloadUrl.addOnSuccessListener { uri ->
-            Glide
-                .with(holder.itemView)
-                .load(uri)
-                .centerCrop()
-                .into(holder.image)
+            if (position == holder.adapterPosition) {
+                Glide.with(holder.itemView)
+                    .load(uri)
+                    .centerInside()
+                    .into(holder.image)
+            }
         }
 
         holder.itemView.setOnClickListener {

@@ -3,6 +3,7 @@ package com.example.filmsbrowser.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputFilter
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -122,6 +123,9 @@ class ProfileActivity : AppCompatActivity() {
         builder.setTitle(childField)
 
         val input = EditText(this)
+        val maxLength = 20
+        val filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
+        input.filters = filters
         builder.setView(input)
 
         builder.setPositiveButton("ОК") { _, _ ->
@@ -171,7 +175,7 @@ class ProfileActivity : AppCompatActivity() {
                 binding.tvUserPatronymic.text = String.format("Patronymic: %s", model?.patronymic)
                 binding.tvUserSurname.text = String.format("Surname: %s", model?.surname)
                 binding.tvUserInformation.text = String.format("Info: %s", model?.information)
-                binding.tvUserBirthDate.text = String.format("Birth date: %s", model?.birthDate)
+                binding.tvUserBirthDate.text = String.format("BirthDate: %s", model?.birthDate)
             } else {
                 Toast.makeText(this, "Failed loading profile", Toast.LENGTH_SHORT).show()
             }
