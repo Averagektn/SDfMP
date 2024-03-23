@@ -86,4 +86,11 @@ class FilmActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun leaveComment(){
+        val message = binding.tvFilmName.text
+        val ref = database.getReference("comments/${auth.currentUser!!.uid}")
+        // anonymous class
+        ref.push().setValue(message)
+    }
 }

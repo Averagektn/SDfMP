@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.collection.LruCache
 import com.example.filmsbrowser.databinding.ActivityAuthorizationBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -20,7 +21,7 @@ class AuthorizationActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         binding.btnSignIn.setOnClickListener {
-            authorize(it)
+            authorize()
         }
 
         binding.btnSignUp.setOnClickListener {
@@ -29,7 +30,7 @@ class AuthorizationActivity : AppCompatActivity() {
         }
     }
 
-    private fun authorize(view: View) {
+    private fun authorize() {
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
 
