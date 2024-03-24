@@ -192,7 +192,7 @@ class ProfileActivity : AppCompatActivity() {
                 Glide
                     .with(this)
                     .load(uri)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    //.diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerCrop()
                     .into(binding.userImage)
             }

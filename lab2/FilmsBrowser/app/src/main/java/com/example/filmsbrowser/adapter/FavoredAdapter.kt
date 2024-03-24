@@ -52,7 +52,7 @@ class FavoredAdapter(private val context: Context, private var films: ArrayList<
             if (position == holder.adapterPosition) {
                 Glide.with(holder.itemView)
                     .load(uri)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    //.diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerInside()
                     .into(holder.image)
             }

@@ -52,7 +52,7 @@ class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) 
             if (position == holder.adapterPosition) {
                 Glide.with(holder.itemView)
                     .load(uri)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    //.diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerInside()
                     .into(holder.image)
             }
