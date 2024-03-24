@@ -48,12 +48,13 @@ class FavoredActivity : AppCompatActivity() {
         films = ArrayList()
 
         database.getReference("favored/${auth.currentUser!!.uid}").get().addOnSuccessListener {
-            val itemsList = mutableListOf<String>()
+            val favoredList = ArrayList<String>()
 
             for (childSnapshot in it.children) {
                 val listItem = childSnapshot.getValue(String::class.java)
+
                 if (listItem != null) {
-                    itemsList.add(listItem)
+                    favoredList.add(listItem)
                 }
             }
 
@@ -63,7 +64,7 @@ class FavoredActivity : AppCompatActivity() {
                     films.clear()
 
                     for (elem in snapshot.children) {
-                        if (itemsList.contains(elem.key)) {
+                        if (favoredList.contains(elem.key)) {
                             val model = elem.getValue(Film::class.java)
 
                             if (model != null) {

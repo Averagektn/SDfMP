@@ -16,7 +16,6 @@ class FilmActivity : AppCompatActivity() {
     private lateinit var database: FirebaseDatabase
     private lateinit var storage: FirebaseStorage
     private lateinit var binding: ActivityFilmBinding
-
     private lateinit var filmId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,28 +29,8 @@ class FilmActivity : AppCompatActivity() {
 
         filmId = intent.getStringExtra("filmId")!!
 
-        val storageRef = storage.getReference("film_images/$filmId")
-        storageRef.listAll()
-            .addOnSuccessListener { listResult ->
-                val uriList = ArrayList<Uri>()
-                val sliderAdapter = ImageSliderAdapter(this, uriList)
-                for (elem in listResult.items) {
-                    elem.downloadUrl.addOnSuccessListener {
-                        uriList.add(it)
-                        sliderAdapter.notifyDataSetChanged()
-                    }
-                }
-
-                binding.viewPager.adapter = sliderAdapter
-            }
-
-        database.getReference("films/$filmId").get().addOnSuccessListener {
-            val model = it.getValue(Film::class.java)
-
-            binding.tvFilmName.text = model?.name
-            binding.tvCategories.text = model?.categories?.joinToString(", ")
-            binding.tvDescription.text = model?.description
-        }
+        initializeSlider()
+        initializeFilm()
 
         binding.btnToFilmsList.setOnClickListener {
             val intent = Intent(this, FilmsListActivity::class.java)
@@ -69,28 +48,60 @@ class FilmActivity : AppCompatActivity() {
         }
 
         binding.btnAddToFavored.setOnClickListener {
-            val ref = database.getReference("favored/${auth.currentUser!!.uid}")
-            ref.get().addOnSuccessListener {
-                val itemsList = mutableListOf<String>()
-
-                for (childSnapshot in it.children) {
-                    val listItem = childSnapshot.getValue(String::class.java)
-                    if (listItem != null) {
-                        itemsList.add(listItem)
-                    }
-                }
-
-                itemsList.add(filmId)
-
-                ref.setValue(itemsList)
-            }
+            addToFavored()
         }
     }
 
-    private fun leaveComment(){
+    private fun addToFavored() {
+        val ref = database.getReference("favored/${auth.currentUser!!.uid}")
+
+        ref.get().addOnSuccessListener {
+            val itemsList = mutableListOf<String>()
+
+            for (childSnapshot in it.children) {
+                val listItem = childSnapshot.getValue(String::class.java)
+                if (listItem != null) {
+                    itemsList.add(listItem)
+                }
+            }
+
+            itemsList.add(filmId)
+
+            ref.setValue(itemsList)
+        }
+    }
+
+    private fun initializeFilm() {
+        database.getReference("films/$filmId").get().addOnSuccessListener {
+            val model = it.getValue(Film::class.java)
+
+            binding.tvFilmName.text = model?.name
+            binding.tvCategories.text = model?.categories?.joinToString(", ")
+            binding.tvDescription.text = model?.description
+        }
+    }
+
+    private fun initializeSlider() {
+        val storageRef = storage.getReference("film_images/$filmId")
+
+        storageRef.listAll().addOnSuccessListener { listResult ->
+            val uriList = ArrayList<Uri>()
+            val sliderAdapter = ImageSliderAdapter(this, uriList)
+            for (elem in listResult.items) {
+                elem.downloadUrl.addOnSuccessListener {
+                    uriList.add(it)
+                    sliderAdapter.notifyDataSetChanged()
+                }
+            }
+
+            binding.viewPager.adapter = sliderAdapter
+        }
+    }
+
+    private fun leaveComment() {
         val message = binding.tvFilmName.text
         val ref = database.getReference("comments/${auth.currentUser!!.uid}")
-        // anonymous class
+        // anonymous class??
         ref.push().setValue(message)
     }
 }
