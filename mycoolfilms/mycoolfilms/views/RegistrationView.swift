@@ -1,4 +1,5 @@
 import SwiftUI
+import FirebaseAuth
 
 struct RegistrationView: View {
     @State private var login: String = ""
@@ -64,6 +65,10 @@ struct RegistrationView: View {
             .background(Color.white)
             .edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
+            .onAppear {
+                UINavigationController.attemptRotationToDeviceOrientation()
+        }
         }
     }
 }

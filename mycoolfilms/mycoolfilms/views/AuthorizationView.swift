@@ -1,62 +1,78 @@
 import SwiftUI
+import Firebase
+import FirebaseAuth
 
 struct AuthorizationView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showRegistrationView = false
+    @State private var isLoggedIn = false
     
     var body: some View {
-        VStack {
-            Text("Sign In")
-                .font(.system(size: 40))
-                .fontWeight(.bold)
-                .padding(.bottom, 10)
-
+        NavigationView {
             VStack {
-                TextField("Enter email", text: $email)
-                    .padding()
-                    .autocapitalization(.none)
-                    .keyboardType(.emailAddress)
-
-                SecureField("Enter password", text: $password)
-                    .padding()
-
-                Button(action: {
-                    // TODO sign in action
-                }) {
-                    Text("Sign In")
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
+                Text("Sign In")
+                    .font(.system(size: 40))
+                    .fontWeight(.bold)
+                    .padding(.bottom, 10)
+                
+                VStack {
+                    TextField("Enter email", text: $email)
                         .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-                .padding(.vertical, 20)
-
-                NavigationLink(
-                    destination: RegistrationView(),
-                    isActive: $showRegistrationView,
-                    label: {
-                        Button(action: {
-                            showRegistrationView = true
-                        }) {
-                            Text("Sign Up")
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.gray)
-                                .cornerRadius(10)
+                        .autocapitalization(.none)
+                        .keyboardType(.emailAddress)
+                    
+                    SecureField("Enter password", text: $password)
+                        .padding()
+                    
+                    Button(action: {
+                        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+                            if error == nil {
+                                isLoggedIn = true
+                            }
                         }
-                        .padding(.vertical, 20)
+                    }) {
+                        Text("Sign In")
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(10)
                     }
-                )
+                    .padding(.vertical, 20)
+                    
+                    NavigationLink(
+                        destination: FilmsListView(),
+                        isActive: $isLoggedIn,
+                        label: {
+                            EmptyView()
+                        }
+                    )
+                    .hidden()
+                    
+                    Button(action: {
+                        showRegistrationView = true
+                    }) {
+                        Text("Sign Up")
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.gray)
+                            .cornerRadius(10)
+                    }
+                    .padding(.vertical, 20)
+                }
+                .padding(.horizontal, 15)
             }
-            .padding(.horizontal, 15)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.white)
+            .edgesIgnoringSafeArea(.all)
+            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
+            .onAppear {
+                UINavigationController.attemptRotationToDeviceOrientation()
+            }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
-        .edgesIgnoringSafeArea(.all)
-        .navigationBarHidden(true)
     }
 }
 
