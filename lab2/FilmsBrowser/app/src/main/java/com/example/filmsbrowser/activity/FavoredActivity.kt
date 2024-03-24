@@ -47,41 +47,51 @@ class FavoredActivity : AppCompatActivity() {
     private fun loadFilms() {
         films = ArrayList()
 
-        database.getReference("favored/${auth.currentUser!!.uid}").get().addOnSuccessListener {
-            val favoredList = ArrayList<String>()
-
-            for (childSnapshot in it.children) {
-                val listItem = childSnapshot.getValue(String::class.java)
-
-                if (listItem != null) {
-                    favoredList.add(listItem)
-                }
+        database.getReference("favored/${auth.currentUser!!.uid}").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                loadFavored(snapshot)
             }
 
-            val filmsRef = database.getReference("films")
-            filmsRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    films.clear()
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@FavoredActivity, "Check your Internet connection", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
 
-                    for (elem in snapshot.children) {
-                        if (favoredList.contains(elem.key)) {
-                            val model = elem.getValue(Film::class.java)
+    private fun loadFavored(snapshot: DataSnapshot) {
+        val favoredList = ArrayList<String>()
 
-                            if (model != null) {
-                                model.id = elem.key!!
-                                films.add(model)
-                            }
+        for (childSnapshot in snapshot.children) {
+            val listItem = childSnapshot.getValue(String::class.java)
+
+            if (listItem != null) {
+                favoredList.add(listItem)
+            }
+        }
+
+        val filmsRef = database.getReference("films")
+        filmsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                films.clear()
+
+                for (elem in snapshot.children) {
+                    if (favoredList.contains(elem.key)) {
+                        val model = elem.getValue(Film::class.java)
+
+                        if (model != null) {
+                            model.id = elem.key!!
+                            films.add(model)
                         }
                     }
-
-                    favoredAdapter = FavoredAdapter(this@FavoredActivity, films)
-                    binding.filmsList.adapter = favoredAdapter
                 }
 
-                override fun onCancelled(p0: DatabaseError) {
-                    Toast.makeText(this@FavoredActivity, "Check your Internet connection", Toast.LENGTH_LONG).show()
-                }
-            })
-        }
+                favoredAdapter = FavoredAdapter(this@FavoredActivity, films)
+                binding.filmsList.adapter = favoredAdapter
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@FavoredActivity, "Check your Internet connection", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }

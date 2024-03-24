@@ -14,7 +14,10 @@ import com.bumptech.glide.Glide
 import com.example.filmsbrowser.databinding.ActivityProfileBinding
 import com.example.filmsbrowser.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 
 class ProfileActivity : AppCompatActivity() {
@@ -163,9 +166,9 @@ class ProfileActivity : AppCompatActivity() {
     private fun showData() {
         val ref = database.getReference("users").child(auth.currentUser!!.uid)
 
-        ref.get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                val model = it.result.getValue(User::class.java)
+        ref.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val model = snapshot.getValue(User::class.java)
 
                 binding.tvUserLogin.text = String.format("Login: %s", model?.login)
                 binding.tvUserEmail.text = String.format("Email: %s", model?.email)
@@ -176,10 +179,13 @@ class ProfileActivity : AppCompatActivity() {
                 binding.tvUserSurname.text = String.format("Surname: %s", model?.surname)
                 binding.tvUserInformation.text = String.format("Info: %s", model?.information)
                 binding.tvUserBirthDate.text = String.format("BirthDate: %s", model?.birthDate)
-            } else {
-                Toast.makeText(this, "Failed loading profile", Toast.LENGTH_SHORT).show()
             }
-        }
+
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@ProfileActivity, "Failed loading profile", Toast.LENGTH_SHORT).show()
+            }
+
+        })
 
         storage.getReference("profile_photos/${auth.currentUser!!.uid}").downloadUrl
             .addOnSuccessListener { uri ->
