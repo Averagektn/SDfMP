@@ -6,7 +6,7 @@ struct AuthorizationView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showRegistrationView = false
-    @State private var isLoggedIn = false
+    @State private var showFilmsListView = false
     
     var body: some View {
         NavigationView {
@@ -15,20 +15,20 @@ struct AuthorizationView: View {
                     .font(.system(size: 40))
                     .fontWeight(.bold)
                     .padding(.bottom, 10)
-                
+
                 VStack {
                     TextField("Enter email", text: $email)
                         .padding()
                         .autocapitalization(.none)
                         .keyboardType(.emailAddress)
-                    
+
                     SecureField("Enter password", text: $password)
                         .padding()
-                    
+
                     Button(action: {
-                        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+                        Auth.auth().signIn(withEmail: email, password: password) { _, error in
                             if error == nil {
-                                isLoggedIn = true
+                                showFilmsListView = true
                             }
                         }
                     }) {
@@ -40,27 +40,30 @@ struct AuthorizationView: View {
                             .cornerRadius(10)
                     }
                     .padding(.vertical, 20)
-                    
+                                        
                     NavigationLink(
-                        destination: FilmsListView(),
-                        isActive: $isLoggedIn,
+                        destination: RegistrationView().navigationBarBackButtonHidden(true),
+                        isActive: $showRegistrationView,
                         label: {
-                            EmptyView()
+                            Button(action: {
+                                showRegistrationView = true
+                            }) {
+                                Text("Sign Up")
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .background(Color.gray)
+                                    .cornerRadius(10)
+                            }
+                            .padding(.vertical, 20)
                         }
                     )
-                    .hidden()
                     
-                    Button(action: {
-                        showRegistrationView = true
-                    }) {
-                        Text("Sign Up")
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color.gray)
-                            .cornerRadius(10)
-                    }
-                    .padding(.vertical, 20)
+                    NavigationLink(
+                        destination: FilmsListView().navigationBarBackButtonHidden(true),
+                        isActive: $showFilmsListView,
+                        label: { EmptyView() }
+                    )
                 }
                 .padding(.horizontal, 15)
             }
@@ -78,6 +81,6 @@ struct AuthorizationView: View {
 
 struct AuthorizationView_Previews: PreviewProvider {
     static var previews: some View {
-        RegistrationView()
+        AuthorizationView()
     }
 }

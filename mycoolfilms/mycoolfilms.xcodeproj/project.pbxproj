@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3F07EC8C2BAF5C1F00D6A915 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F07EC8B2BAF5C1F00D6A915 /* RegistrationView.swift */; };
 		3F07EC8E2BAF5CA600D6A915 /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F07EC8D2BAF5CA600D6A915 /* AuthorizationView.swift */; };
+		3F0DD00B2BB0600900779304 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0DD00A2BB0600900779304 /* User.swift */; };
+		3F0DD00E2BB0650C00779304 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0DD00D2BB0650C00779304 /* UserService.swift */; };
 		3F5943A22BADEB1D00280652 /* mycoolfilmsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5943A12BADEB1D00280652 /* mycoolfilmsApp.swift */; };
 		3F5943A62BADEB2000280652 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F5943A52BADEB2000280652 /* Assets.xcassets */; };
 		3F5943A92BADEB2000280652 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F5943A82BADEB2000280652 /* Preview Assets.xcassets */; };
@@ -49,6 +51,8 @@
 /* Begin PBXFileReference section */
 		3F07EC8B2BAF5C1F00D6A915 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		3F07EC8D2BAF5CA600D6A915 /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
+		3F0DD00A2BB0600900779304 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		3F0DD00D2BB0650C00779304 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		3F59439E2BADEB1D00280652 /* mycoolfilms.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mycoolfilms.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F5943A12BADEB1D00280652 /* mycoolfilmsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mycoolfilmsApp.swift; sourceTree = "<group>"; };
 		3F5943A52BADEB2000280652 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -111,6 +115,22 @@
 			path = views;
 			sourceTree = "<group>";
 		};
+		3F0DD0092BB05FE100779304 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				3F0DD00A2BB0600900779304 /* User.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		3F0DD00C2BB064F500779304 /* services */ = {
+			isa = PBXGroup;
+			children = (
+				3F0DD00D2BB0650C00779304 /* UserService.swift */,
+			);
+			path = services;
+			sourceTree = "<group>";
+		};
 		3F5943952BADEB1D00280652 = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +150,8 @@
 		3F5943A02BADEB1D00280652 /* mycoolfilms */ = {
 			isa = PBXGroup;
 			children = (
+				3F0DD00C2BB064F500779304 /* services */,
+				3F0DD0092BB05FE100779304 /* models */,
 				3FEBB0C32BB0419A00A7560E /* GoogleService-Info.plist */,
 				3F07EC8A2BAF5B7100D6A915 /* views */,
 				3F5943A12BADEB1D00280652 /* mycoolfilmsApp.swift */,
@@ -252,8 +274,10 @@
 			files = (
 				3FEBB0C62BB0436200A7560E /* FilmsListView.swift in Sources */,
 				3F07EC8C2BAF5C1F00D6A915 /* RegistrationView.swift in Sources */,
+				3F0DD00E2BB0650C00779304 /* UserService.swift in Sources */,
 				3F07EC8E2BAF5CA600D6A915 /* AuthorizationView.swift in Sources */,
 				3FEBB0C82BB0473A00A7560E /* FilmView.swift in Sources */,
+				3F0DD00B2BB0600900779304 /* User.swift in Sources */,
 				3FEBB0CA2BB0475200A7560E /* ProfileView.swift in Sources */,
 				3FEBB0CC2BB0479A00A7560E /* FavoredView.swift in Sources */,
 				3F5943A22BADEB1D00280652 /* mycoolfilmsApp.swift in Sources */,
