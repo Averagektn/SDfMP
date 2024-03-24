@@ -9,6 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.filmsbrowser.R
 import com.example.filmsbrowser.activity.FilmActivity
 import com.example.filmsbrowser.databinding.ItemFilmBinding
@@ -51,6 +52,7 @@ class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) 
             if (position == holder.adapterPosition) {
                 Glide.with(holder.itemView)
                     .load(uri)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerInside()
                     .into(holder.image)
             }

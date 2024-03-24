@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.filmsbrowser.databinding.ActivityProfileBinding
 import com.example.filmsbrowser.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -25,7 +26,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var database: FirebaseDatabase
     private lateinit var storage: FirebaseStorage
     private lateinit var binding: ActivityProfileBinding
-
     private lateinit var imageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -192,6 +192,7 @@ class ProfileActivity : AppCompatActivity() {
                 Glide
                     .with(this)
                     .load(uri)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerCrop()
                     .into(binding.userImage)
             }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.filmsbrowser.activity.FilmActivity
 import com.example.filmsbrowser.databinding.ItemFavoredBinding
 import com.example.filmsbrowser.model.Film
@@ -51,6 +52,7 @@ class FavoredAdapter(private val context: Context, private var films: ArrayList<
             if (position == holder.adapterPosition) {
                 Glide.with(holder.itemView)
                     .load(uri)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerInside()
                     .into(holder.image)
             }
