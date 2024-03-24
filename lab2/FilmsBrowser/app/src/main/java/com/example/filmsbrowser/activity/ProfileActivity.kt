@@ -52,35 +52,35 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.btnEditLogin.setOnClickListener {
-            showEditText("Login", binding.tvUserLogin)
+            showEditText("Login", "Login", binding.tvUserLogin)
         }
 
         binding.btnEditGender.setOnClickListener {
-            showEditText("Gender", binding.tvUserGender)
+            showEditText("Gender", "Gender", binding.tvUserGender)
         }
 
         binding.btnEditCountry.setOnClickListener {
-            showEditText("Country", binding.tvUserCountry)
+            showEditText("Country", "Country", binding.tvUserCountry)
         }
 
         binding.btnEditSurname.setOnClickListener {
-            showEditText("Surname", binding.tvUserSurname)
+            showEditText("Surname", "Surname", binding.tvUserSurname)
         }
 
         binding.btnEditUserName.setOnClickListener {
-            showEditText("Username", binding.tvUserName)
+            showEditText("Username", "Name", binding.tvUserName)
         }
 
         binding.btnEditBirthDate.setOnClickListener {
-            showEditText("BirthDate", binding.tvUserBirthDate)
+            showEditText("BirthDate", "Birth date", binding.tvUserBirthDate)
         }
 
         binding.btnEditPatronymic.setOnClickListener {
-            showEditText("Patronymic", binding.tvUserPatronymic)
+            showEditText("Patronymic", "Patronymic", binding.tvUserPatronymic)
         }
 
         binding.btnEditUserInformation.setOnClickListener {
-            showEditText("Information", binding.tvUserInformation)
+            showEditText("Information", "Information", binding.tvUserInformation)
         }
 
         binding.btnLogOut.setOnClickListener {
@@ -121,9 +121,9 @@ class ProfileActivity : AppCompatActivity() {
         showData()
     }
 
-    private fun showEditText(childField: String, textView: TextView) {
+    private fun showEditText(childField: String, caption: String, textView: TextView) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(childField)
+        builder.setTitle(caption)
 
         val input = EditText(this)
         val maxLength = 20
@@ -136,7 +136,7 @@ class ProfileActivity : AppCompatActivity() {
             database.getReference("users").child(auth.currentUser!!.uid).child(childField.lowercase())
                 .setValue(newValue)
                 .addOnCompleteListener {
-                    textView.text = String.format("$childField: $newValue")
+                    textView.text = String.format("$caption: $newValue")
                 }
         }
 
@@ -166,7 +166,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun showData() {
         val ref = database.getReference("users").child(auth.currentUser!!.uid)
 
-        ref.addValueEventListener(object: ValueEventListener {
+        ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val model = snapshot.getValue(User::class.java)
 
