@@ -18,6 +18,10 @@ class FilmActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFilmBinding
     private lateinit var filmId: String
 
+    companion object {
+        private val uriList = HashMap<String, ArrayList<Uri>>()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFilmBinding.inflate(layoutInflater)
@@ -84,17 +88,23 @@ class FilmActivity : AppCompatActivity() {
     private fun initializeSlider() {
         val storageRef = storage.getReference("film_images/$filmId")
 
-        storageRef.listAll().addOnSuccessListener { listResult ->
-            val uriList = ArrayList<Uri>()
-            val sliderAdapter = ImageSliderAdapter(this, uriList)
-            for (elem in listResult.items) {
-                elem.downloadUrl.addOnSuccessListener {
-                    uriList.add(it)
-                    sliderAdapter.notifyDataSetChanged()
-                }
-            }
-
+        if (uriList.containsKey(filmId)){
+            val sliderAdapter = ImageSliderAdapter(this, uriList[filmId]!!)
             binding.viewPager.adapter = sliderAdapter
+            sliderAdapter.notifyDataSetChanged()
+        } else {
+            uriList[filmId] = ArrayList()
+            storageRef.listAll().addOnSuccessListener { listResult ->
+                val sliderAdapter = ImageSliderAdapter(this, uriList[filmId]!!)
+                for (elem in listResult.items) {
+                    elem.downloadUrl.addOnSuccessListener {
+                        uriList[filmId]!!.add(it)
+                        sliderAdapter.notifyDataSetChanged()
+                    }
+                }
+
+                binding.viewPager.adapter = sliderAdapter
+            }
         }
     }
 
