@@ -19,7 +19,6 @@ class FilmViewModel : ViewModel() {
     private lateinit var userRef: DatabaseReference
 
     private val filmLiveData: MutableLiveData<Film?> = MutableLiveData()
-    private val commentsLiveData: MutableLiveData<List<Comment>> = MutableLiveData()
     private val favoredFilmsLiveData: MutableLiveData<List<String>> = MutableLiveData()
     private val userLiveData: MutableLiveData<User?> = MutableLiveData()
 
@@ -50,7 +49,7 @@ class FilmViewModel : ViewModel() {
         return commentsRef.child(filmId)
     }
 
-    fun getFavoredFilms(userId: String): LiveData<List<String>>? {
+    fun getFavoredFilms(userId: String): LiveData<List<String>> {
         val favoredFilmsQuery = favoredFilmsRef.child(userId)
         favoredFilmsQuery.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -94,7 +93,7 @@ class FilmViewModel : ViewModel() {
         commentsRef.child(filmId).push().setValue(comment)
     }
 
-    fun getFilmImages(storageRef: StorageReference): LiveData<Uri>? {
+    fun getFilmImages(storageRef: StorageReference): LiveData<Uri> {
         val uriLiveData: MutableLiveData<Uri> = MutableLiveData()
         storageRef.listAll().addOnSuccessListener { listResult ->
             for (elem in listResult.items) {

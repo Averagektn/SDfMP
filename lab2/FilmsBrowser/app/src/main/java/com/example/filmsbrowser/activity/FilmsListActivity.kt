@@ -4,24 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmsbrowser.adapter.FilmListAdapter
 import com.example.filmsbrowser.databinding.ActivityFilmsListBinding
 import com.example.filmsbrowser.model.Film
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.storage.FirebaseStorage
+import com.example.filmsbrowser.viewModel.FilmsListViewModel
 
 class FilmsListActivity : AppCompatActivity() {
-    private lateinit var database: FirebaseDatabase
-    private lateinit var storage: FirebaseStorage
-    private lateinit var binding: ActivityFilmsListBinding
+    private lateinit var viewModel: FilmsListViewModel
 
-    private lateinit var films: ArrayList<Film>
+    private lateinit var binding: ActivityFilmsListBinding
     private lateinit var filmListAdapter: FilmListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +23,7 @@ class FilmsListActivity : AppCompatActivity() {
         binding = ActivityFilmsListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        database = FirebaseDatabase.getInstance()
-        storage = FirebaseStorage.getInstance()
+        viewModel = ViewModelProvider(this)[FilmsListViewModel::class.java]
 
         binding.filmsList.layoutManager = LinearLayoutManager(this)
 
@@ -54,34 +47,11 @@ class FilmsListActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        loadFilms()
-    }
+        viewModel.films.observe(this) { films ->
+            filmListAdapter = FilmListAdapter(this@FilmsListActivity, films as ArrayList<Film>)
+            binding.filmsList.adapter = filmListAdapter
+        }
 
-    private fun loadFilms() {
-        films = ArrayList()
-
-        val filmsRef = database.getReference("films")
-        filmsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                films.clear()
-
-                for (elem in snapshot.children) {
-                    val filmId = elem.key
-                    val model = elem.getValue(Film::class.java)
-
-                    if (model != null) {
-                        model.id = filmId!!
-                        films.add(model)
-                    }
-                }
-
-                filmListAdapter = FilmListAdapter(this@FilmsListActivity, films)
-                binding.filmsList.adapter = filmListAdapter
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-                Toast.makeText(this@FilmsListActivity, "Check your Internet connection", Toast.LENGTH_LONG).show()
-            }
-        })
+        viewModel.loadFilms()
     }
 }
