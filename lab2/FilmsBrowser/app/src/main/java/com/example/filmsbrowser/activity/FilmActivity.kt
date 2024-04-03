@@ -5,12 +5,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.filmsbrowser.adapter.CommentsAdapter
 import com.example.filmsbrowser.adapter.ImageSliderAdapter
 import com.example.filmsbrowser.databinding.ActivityFilmBinding
 import com.example.filmsbrowser.model.Comment
-import com.example.filmsbrowser.model.Film
-import com.example.filmsbrowser.model.User
+import com.example.filmsbrowser.viewModel.FilmViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -21,6 +21,7 @@ class FilmActivity : AppCompatActivity() {
     private lateinit var storage: FirebaseStorage
     private lateinit var binding: ActivityFilmBinding
     private lateinit var filmId: String
+    private lateinit var filmViewModel: FilmViewModel
 
     companion object {
         private val uriList = HashMap<String, ArrayList<Uri>>()
@@ -37,12 +38,14 @@ class FilmActivity : AppCompatActivity() {
 
         filmId = intent.getStringExtra("filmId")!!
 
+        filmViewModel = ViewModelProvider(this)[FilmViewModel::class.java]
+        filmViewModel.init(database, storage)
 
         checkIfFilmInFavored()
         initializeSlider()
         initializeFilm()
 
-        val adapter = CommentsAdapter(this, database.getReference("comments/$filmId"))
+        val adapter = CommentsAdapter(this, filmViewModel.getCommentsRef(filmId))
         val commentList = binding.commentList
         commentList.adapter = adapter
 
@@ -69,61 +72,41 @@ class FilmActivity : AppCompatActivity() {
 
         binding.btnComment.setOnClickListener {
             val uid = auth.currentUser!!.uid
-            database.getReference("users/$uid").get().addOnSuccessListener {
-                val user = it.getValue(User::class.java)
-
-                database
-                    .getReference("comments/$filmId")
-                    .push()
-                    .setValue(Comment(user!!.login, binding.etComment.text.toString()))
+            filmViewModel.getUser(uid).observe(this) { user ->
+                user?.let {
+                    filmViewModel.addComment(filmId, Comment(user.login, binding.etComment.text.toString()))
+                }
             }
         }
     }
 
     private fun checkIfFilmInFavored() {
-        database.getReference("favored/${auth.currentUser!!.uid}").get().addOnSuccessListener {
-            val films = HashSet<String>()
-
-            for (snapshot in it.children) {
-                val item = snapshot.getValue(String::class.java)
-                if (item != null) {
-                    films.add(item)
+        filmViewModel.getFavoredFilms(auth.currentUser!!.uid)?.observe(this) { films ->
+            films?.let {
+                if (films.contains(filmId)) {
+                    binding.btnAddToFavored.visibility = View.GONE
                 }
-            }
-
-            if (films.contains(filmId)) {
-                binding.btnAddToFavored.visibility = View.GONE
-                binding.btnAddToFavored.isEnabled = false
             }
         }
     }
 
     private fun addToFavored() {
-        val ref = database.getReference("favored/${auth.currentUser!!.uid}")
-
-        ref.get().addOnSuccessListener {
-            val itemsList = mutableListOf<String>()
-
-            for (childSnapshot in it.children) {
-                val listItem = childSnapshot.getValue(String::class.java)
-                if (listItem != null) {
-                    itemsList.add(listItem)
-                }
+        filmViewModel.getFavoredFilms(auth.currentUser!!.uid)?.observe(this) { films ->
+            films?.let {
+                val itemsList = films.toMutableList()
+                itemsList.add(filmId)
+                filmViewModel.updateFavoredFilms(auth.currentUser!!.uid, itemsList)
             }
-
-            itemsList.add(filmId)
-
-            ref.setValue(itemsList)
         }
     }
 
     private fun initializeFilm() {
-        database.getReference("films/$filmId").get().addOnSuccessListener {
-            val model = it.getValue(Film::class.java)
-
-            binding.tvFilmName.text = model?.name
-            binding.tvCategories.text = model?.categories?.joinToString(", ")
-            binding.tvDescription.text = model?.description
+        filmViewModel.getFilm(filmId).observe(this) { film ->
+            film?.let {
+                binding.tvFilmName.text = film.name
+                binding.tvCategories.text = film.categories.joinToString(", ")
+                binding.tvDescription.text = film.description
+            }
         }
     }
 
@@ -136,16 +119,13 @@ class FilmActivity : AppCompatActivity() {
             sliderAdapter.notifyDataSetChanged()
         } else {
             uriList[filmId] = ArrayList()
-            storageRef.listAll().addOnSuccessListener { listResult ->
-                val sliderAdapter = ImageSliderAdapter(this, uriList[filmId]!!)
-                for (elem in listResult.items) {
-                    elem.downloadUrl.addOnSuccessListener {
-                        uriList[filmId]!!.add(it)
-                        sliderAdapter.notifyDataSetChanged()
-                    }
+            filmViewModel.getFilmImages(storageRef)?.observe(this) { uri ->
+                uri?.let {
+                    uriList[filmId]!!.add(uri)
+                    val sliderAdapter = ImageSliderAdapter(this, uriList[filmId]!!)
+                    binding.viewPager.adapter = sliderAdapter
+                    sliderAdapter.notifyDataSetChanged()
                 }
-
-                binding.viewPager.adapter = sliderAdapter
             }
         }
     }
