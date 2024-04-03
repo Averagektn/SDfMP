@@ -3,7 +3,9 @@ package com.example.filmsbrowser.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.filmsbrowser.adapter.CommentsAdapter
 import com.example.filmsbrowser.adapter.ImageSliderAdapter
 import com.example.filmsbrowser.databinding.ActivityFilmBinding
@@ -36,6 +38,8 @@ class FilmActivity : AppCompatActivity() {
 
         filmId = intent.getStringExtra("filmId")!!
 
+
+        checkIfFilmInFavored()
         initializeSlider()
         initializeFilm()
 
@@ -60,9 +64,11 @@ class FilmActivity : AppCompatActivity() {
 
         binding.btnAddToFavored.setOnClickListener {
             addToFavored()
+            binding.btnAddToFavored.visibility = View.GONE
+            binding.btnAddToFavored.isEnabled = false
         }
 
-        binding.commentButton.setOnClickListener {
+        binding.btnComment.setOnClickListener {
             val uid = auth.currentUser!!.uid
             database.getReference("users/$uid").get().addOnSuccessListener {
                 val user = it.getValue(User::class.java)
@@ -70,7 +76,25 @@ class FilmActivity : AppCompatActivity() {
                 database
                     .getReference("comments/$filmId")
                     .push()
-                    .setValue(Comment(user!!.login, binding.commentEditText.text.toString()))
+                    .setValue(Comment(user!!.login, binding.etComment.text.toString()))
+            }
+        }
+    }
+
+    private fun checkIfFilmInFavored() {
+        database.getReference("favored/${auth.currentUser!!.uid}").get().addOnSuccessListener {
+            val films = HashSet<String>()
+
+            for (snapshot in it.children) {
+                val item = snapshot.getValue(String::class.java)
+                if (item != null) {
+                    films.add(item)
+                }
+            }
+
+            if (films.contains(filmId)){
+                binding.btnAddToFavored.visibility = View.GONE
+                binding.btnAddToFavored.isEnabled = false
             }
         }
     }
