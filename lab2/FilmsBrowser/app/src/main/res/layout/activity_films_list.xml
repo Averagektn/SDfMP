@@ -20,11 +20,11 @@
             android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/filmsList"
-                tools:listitem="@layout/item_film"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/linearContainer"/>
+            android:id="@+id/filmsList"
+            tools:listitem="@layout/item_film"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/linearContainer"/>
 
         <LinearLayout
                 android:id="@+id/linearContainer"

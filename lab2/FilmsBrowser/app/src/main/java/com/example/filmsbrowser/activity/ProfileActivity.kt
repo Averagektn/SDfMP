@@ -193,7 +193,7 @@ class ProfileActivity : AppCompatActivity() {
                     .with(this)
                     .load(uri)
                     //.diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
+                    .centerInside()
                     .into(binding.userImage)
             }
     }
