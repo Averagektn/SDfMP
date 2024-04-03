@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.FilmActivity"
+        android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="horizontal">
+        <TextView
+                android:id="@+id/tvFilmName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:textStyle="bold"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="72sp"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+        <ImageButton
+                android:id="@+id/btnAddToFavored"
+                android:layout_weight="1"
+                android:layout_marginBottom="100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="TODO"
+                android:src="@android:drawable/btn_star_big_on"/>
+    </LinearLayout>
+
+    <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+    <TextView
+            android:id="@+id/tvCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
+
+    <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    <LinearLayout
+            android:id="@+id/commentListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        <ListView
+                android:id="@+id/commentList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@android:color/darker_gray"
+                android:dividerHeight="1dp"
+                tools:listitem="@layout/item_comment"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/commentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <EditText
+                android:id="@+id/etComment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Enter comment"/>
+
+        <Button
+                android:id="@+id/btnComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/linearContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+
+        <Button
+                android:id="@+id/btnToFavored"
+                android:text="@string/to_favored"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="7dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColor="@color/colorTextBackground"/>
+
+        <Button
+                android:id="@+id/btnToFilmsList"
+                android:text="@string/to_films_list"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="7dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColor="@color/colorTextBackground"/>
+
+        <Button
+                android:id="@+id/btnToProfile"
+                android:text="@string/to_profile"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="7dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColor="@color/colorTextBackground"/>
+    </LinearLayout>
+
+</LinearLayout>

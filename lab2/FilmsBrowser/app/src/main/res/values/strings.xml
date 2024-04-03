@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">FilmsBrowser</string>
+    <string name="action_settings">Settings</string>
+    <string name="enter_login">Enter login</string>
+    <string name="enter_email">Enter email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up_title">SIGN UP</string>
+    <string name="sign_in_title">SIGN IN</string>
+    <string name="film_image">Film image</string>
+    <string name="film_search">Search…</string>
+    <string name="to_films_list">To films list</string>
+    <string name="to_profile">To profile</string>
+    <string name="to_favored">To favored</string>
+    <string name="edit">Edit</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="slider_description">Images</string>
+</resources>
