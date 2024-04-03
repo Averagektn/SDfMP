@@ -2,18 +2,14 @@ package com.example.filmsbrowser.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.filmsbrowser.databinding.ActivityRegistrationBinding
-import com.example.filmsbrowser.model.Film
-import com.example.filmsbrowser.model.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import com.example.filmsbrowser.viewModel.RegistrationViewModel
 
 class RegistrationActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
-    private lateinit var database: FirebaseDatabase
+    private lateinit var viewModel: RegistrationViewModel
     private lateinit var binding: ActivityRegistrationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,23 +17,14 @@ class RegistrationActivity : AppCompatActivity() {
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        auth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance()
+        viewModel = ViewModelProvider(this)[RegistrationViewModel::class.java]
 
         binding.btnSignUp.setOnClickListener {
             val login = binding.etLogin.text.toString().trim()
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
 
-            if (login.isEmpty() || login.length < 4) {
-                Toast.makeText(applicationContext, "Invalid username", Toast.LENGTH_SHORT).show()
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(applicationContext, "Invalid email", Toast.LENGTH_SHORT).show()
-            } else if (password.isEmpty() || password.length < 8) {
-                Toast.makeText(applicationContext, "Invalid password", Toast.LENGTH_SHORT).show()
-            } else {
-                registration(login, email, password)
-            }
+            viewModel.registerUser(login, email, password)
         }
 
         binding.btnSignIn.setOnClickListener {
@@ -45,35 +32,12 @@ class RegistrationActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        //initializeDbWithFilms()
+        observeViewModel()
     }
 
-
-    private fun registration(login: String, email: String, password: String) {
-        val usersRef = database.getReference("users")
-        val query = usersRef.orderByChild("login").equalTo(login)
-
-        query.get().addOnCompleteListener { task ->
-            if (task.isSuccessful && !task.result.exists()) {
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) {
-                    if (it.isSuccessful) {
-                        addUser(login, email)
-                    } else {
-                        Toast.makeText(applicationContext, "Registration failed", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } else {
-                Toast.makeText(applicationContext, "This login is already in use", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun addUser(login: String, email: String) {
-        val users = FirebaseDatabase.getInstance().getReference("users").child(auth.currentUser!!.uid)
-
-        val newUser = User(login, email)
-        users.setValue(newUser).addOnCompleteListener {
-            if (it.isSuccessful) {
+    private fun observeViewModel() {
+        viewModel.registrationSuccess.observe(this) { success ->
+            if (success) {
                 val intent = Intent(this@RegistrationActivity, FilmsListActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
@@ -81,9 +45,33 @@ class RegistrationActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Registration failed", Toast.LENGTH_SHORT).show()
             }
         }
+
+        viewModel.loginValidation.observe(this) { loginValidation ->
+            if (!loginValidation) {
+                Toast.makeText(applicationContext, "Invalid username", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.emailValidation.observe(this) { emailValidation ->
+            if (!emailValidation) {
+                Toast.makeText(applicationContext, "Invalid email", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.passwordValidation.observe(this) { passwordValidation ->
+            if (!passwordValidation) {
+                Toast.makeText(applicationContext, "Invalid password", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.loginInUse.observe(this) { loginInUse ->
+            if (loginInUse) {
+                Toast.makeText(applicationContext, "This login is already in use", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
-    private fun initializeDbWithFilms() {
+    /*private fun initializeDbWithFilms() {
         val node = database.getReference("films")
         node.push().setValue(
             Film(
@@ -295,5 +283,5 @@ class RegistrationActivity : AppCompatActivity() {
                 "An aging porn star agrees to participate in an \"art film\" in order to make a clean break from the business, only to discover that he has been drafted into making a pedophilia and necrophilia themed snuff film."
             )
         )
-    }
+    }*/
 }
