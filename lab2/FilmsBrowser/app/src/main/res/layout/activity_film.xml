@@ -9,7 +9,7 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:orientation="horizontal">
         <TextView
                 android:id="@+id/tvFilmName"
@@ -21,11 +21,11 @@
                 android:autoSizeMinTextSize="12sp"
                 android:autoSizeMaxTextSize="72sp"
                 android:gravity="center"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"/>
         <ImageButton
                 android:id="@+id/btnAddToFavored"
                 android:layout_weight="1"
-                android:layout_marginBottom="150dp"
+                android:layout_marginBottom="100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:contentDescription="TODO"
@@ -35,7 +35,7 @@
     <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="400dp"/>
+            android:layout_height="200dp"/>
 
     <TextView
             android:id="@+id/tvCategories"
@@ -48,6 +48,43 @@
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+
+    <LinearLayout
+            android:id="@+id/commentListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        <ListView
+                android:id="@+id/commentList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@android:color/darker_gray"
+                android:dividerHeight="1dp"
+                tools:listitem="@layout/item_comment"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/commentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+
+        <EditText
+                android:id="@+id/commentEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Enter comment"/>
+
+        <Button
+                android:id="@+id/commentButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send"/>
+    </LinearLayout>
 
     <LinearLayout
             android:id="@+id/linearContainer"
