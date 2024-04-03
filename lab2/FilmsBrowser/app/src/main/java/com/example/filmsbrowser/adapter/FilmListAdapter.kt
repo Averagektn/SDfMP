@@ -2,8 +2,6 @@ package com.example.filmsbrowser.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +11,11 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.filmsbrowser.R
 import com.example.filmsbrowser.activity.FilmActivity
 import com.example.filmsbrowser.databinding.ItemFilmBinding
 import com.example.filmsbrowser.filtering.FilterFilm
 import com.example.filmsbrowser.model.Film
 import com.google.firebase.storage.FirebaseStorage
-import java.io.File
 
 class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) :
     RecyclerView.Adapter<FilmListAdapter.FilmHolder>(), Filterable {
@@ -27,10 +23,10 @@ class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) 
     private var filter: FilterFilm? = null
     private var filterList: ArrayList<Film> = films
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
-    companion object{
+
+    companion object {
         private val imageUrls: HashMap<String, Uri> = HashMap()
     }
-
 
     inner class FilmHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name = binding.tvFilmName
@@ -58,18 +54,16 @@ class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) 
         val imageUrl = imageUrls[model.id]
 
         if (imageUrl != null) {
-            // Используйте сохраненный URL-адрес изображения
             Glide.with(holder.itemView)
                 .load(imageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerInside()
                 .into(holder.image)
         } else {
-            // Загрузите изображение и сохраните URL-адрес в HashMap
             val storageRef = storage.getReference("posters/${model.id}")
             storageRef.downloadUrl.addOnSuccessListener { uri ->
                 if (position == holder.adapterPosition) {
-                    imageUrls[model.id!!] = uri // Сохраните URL-адрес в HashMap
+                    imageUrls[model.id!!] = uri
                     Glide.with(holder.itemView)
                         .load(uri)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -85,7 +79,6 @@ class FilmListAdapter(private val context: Context, var films: ArrayList<Film>) 
             context.startActivity(intent)
         }
     }
-    //context.cacheDir
 
     /**
      *

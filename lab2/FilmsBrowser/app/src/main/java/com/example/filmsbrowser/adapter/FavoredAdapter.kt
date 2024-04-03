@@ -1,7 +1,9 @@
 package com.example.filmsbrowser.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +24,10 @@ class FavoredAdapter(private val context: Context, private var films: ArrayList<
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var binding: ItemFavoredBinding
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
+
+    companion object {
+        private val imageUrls: HashMap<String, Uri> = HashMap()
+    }
 
     inner class FilmHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name = binding.tvFilmName
@@ -47,14 +53,25 @@ class FavoredAdapter(private val context: Context, private var films: ArrayList<
 
         holder.image.setImageDrawable(null)
 
-        val storageRef = storage.getReference("posters/${model.id}")
-        storageRef.downloadUrl.addOnSuccessListener { uri ->
-            if (position == holder.adapterPosition) {
-                Glide.with(holder.itemView)
-                    .load(uri)
-                    //.diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerInside()
-                    .into(holder.image)
+        val imageUrl = imageUrls[model.id]
+
+        if (imageUrl != null) {
+            Glide.with(holder.itemView)
+                .load(imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerInside()
+                .into(holder.image)
+        } else {
+            val storageRef = storage.getReference("posters/${model.id}")
+            storageRef.downloadUrl.addOnSuccessListener { uri ->
+                if (position == holder.adapterPosition) {
+                    imageUrls[model.id!!] = uri
+                    Glide.with(holder.itemView)
+                        .load(uri)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .centerInside()
+                        .into(holder.image)
+                }
             }
         }
 
