@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputFilter
+import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -72,7 +73,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.btnEditBirthDate.setOnClickListener {
-            showEditText("BirthDate", "Birth date", binding.tvUserBirthDate)
+            showDatePicker("BirthDate", "Birth date", binding.tvUserBirthDate)
         }
 
         binding.btnEditPatronymic.setOnClickListener {
@@ -119,6 +120,34 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         showData()
+    }
+
+    private fun showDatePicker(childField: String, caption: String, textView: TextView) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(caption)
+
+        val datePicker = DatePicker(this)
+        builder.setView(datePicker)
+
+        builder.setPositiveButton("ОК") { _, _ ->
+            val day = datePicker.dayOfMonth
+            val month = datePicker.month + 1
+            val year = datePicker.year
+            val date = "$day.$month.$year"
+
+            database.getReference("users").child(auth.currentUser!!.uid).child(childField.lowercase())
+                .setValue(date)
+                .addOnCompleteListener {
+                    textView.text = String.format("$caption: $date")
+                }
+        }
+
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.cancel()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun showEditText(childField: String, caption: String, textView: TextView) {
@@ -178,7 +207,7 @@ class ProfileActivity : AppCompatActivity() {
                 binding.tvUserPatronymic.text = String.format("Patronymic: %s", model?.patronymic)
                 binding.tvUserSurname.text = String.format("Surname: %s", model?.surname)
                 binding.tvUserInformation.text = String.format("Info: %s", model?.information)
-                binding.tvUserBirthDate.text = String.format("BirthDate: %s", model?.birthDate)
+                binding.tvUserBirthDate.text = String.format("Birth date: %s", model?.birthDate)
             }
 
             override fun onCancelled(p0: DatabaseError) {
