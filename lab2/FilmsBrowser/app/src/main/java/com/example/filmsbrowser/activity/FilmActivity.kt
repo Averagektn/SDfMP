@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import com.example.filmsbrowser.adapter.CommentsAdapter
 import com.example.filmsbrowser.adapter.ImageSliderAdapter
 import com.example.filmsbrowser.databinding.ActivityFilmBinding
@@ -92,7 +91,7 @@ class FilmActivity : AppCompatActivity() {
                 }
             }
 
-            if (films.contains(filmId)){
+            if (films.contains(filmId)) {
                 binding.btnAddToFavored.visibility = View.GONE
                 binding.btnAddToFavored.isEnabled = false
             }
