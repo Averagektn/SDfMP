@@ -8,13 +8,11 @@
             android:id="@+id/tvCommentAuthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="ABOBAAUTHOR"/>
+            android:layout_marginTop="5dp"/>
 
     <TextView
             android:id="@+id/tvCommentText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="ABOBA"/>
+            android:layout_marginTop="10dp"/>
 </LinearLayout>

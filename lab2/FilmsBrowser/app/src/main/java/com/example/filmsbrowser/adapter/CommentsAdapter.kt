@@ -8,7 +8,10 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.filmsbrowser.R
 import com.example.filmsbrowser.model.Comment
-import com.google.firebase.database.*
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 
 class CommentsAdapter(context: Context, private val commentsRef: DatabaseReference) :
     ArrayAdapter<Comment>(context, 0) {

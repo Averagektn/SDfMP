@@ -191,7 +191,6 @@ class ProfileActivity : AppCompatActivity() {
             }
     }
 
-
     private fun showData() {
         val ref = database.getReference("users").child(auth.currentUser!!.uid)
 
