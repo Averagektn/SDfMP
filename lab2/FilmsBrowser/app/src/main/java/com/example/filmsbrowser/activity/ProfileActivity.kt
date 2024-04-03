@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.filmsbrowser.databinding.ActivityProfileBinding
 import com.example.filmsbrowser.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -155,7 +156,7 @@ class ProfileActivity : AppCompatActivity() {
                     Glide
                         .with(this)
                         .load(uri)
-                        .centerCrop()
+                        .centerInside()
                         .into(binding.userImage)
                 }
             }
@@ -191,7 +192,7 @@ class ProfileActivity : AppCompatActivity() {
                 Glide
                     .with(this)
                     .load(uri)
-                    //.diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerInside()
                     .into(binding.userImage)
             }
