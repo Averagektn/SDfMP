@@ -4,9 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.filmsbrowser.adapter.CommentsAdapter
 import com.example.filmsbrowser.adapter.ImageSliderAdapter
 import com.example.filmsbrowser.databinding.ActivityFilmBinding
+import com.example.filmsbrowser.model.Comment
 import com.example.filmsbrowser.model.Film
+import com.example.filmsbrowser.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -36,6 +39,10 @@ class FilmActivity : AppCompatActivity() {
         initializeSlider()
         initializeFilm()
 
+        val adapter = CommentsAdapter(this, database.getReference("comments/$filmId"))
+        val commentList = binding.commentList
+        commentList.adapter = adapter
+
         binding.btnToFilmsList.setOnClickListener {
             val intent = Intent(this, FilmsListActivity::class.java)
             startActivity(intent)
@@ -53,6 +60,18 @@ class FilmActivity : AppCompatActivity() {
 
         binding.btnAddToFavored.setOnClickListener {
             addToFavored()
+        }
+
+        binding.commentButton.setOnClickListener {
+            val uid = auth.currentUser!!.uid
+            database.getReference("users/$uid").get().addOnSuccessListener {
+                val user = it.getValue(User::class.java)
+
+                database
+                    .getReference("comments/$filmId")
+                    .push()
+                    .setValue(Comment(user!!.login, binding.commentEditText.text.toString()))
+            }
         }
     }
 
@@ -88,7 +107,7 @@ class FilmActivity : AppCompatActivity() {
     private fun initializeSlider() {
         val storageRef = storage.getReference("film_images/$filmId")
 
-        if (uriList.containsKey(filmId)){
+        if (uriList.containsKey(filmId)) {
             val sliderAdapter = ImageSliderAdapter(this, uriList[filmId]!!)
             binding.viewPager.adapter = sliderAdapter
             sliderAdapter.notifyDataSetChanged()
