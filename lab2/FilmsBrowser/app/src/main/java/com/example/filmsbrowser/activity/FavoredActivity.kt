@@ -11,22 +11,16 @@ import com.example.filmsbrowser.databinding.ActivityFavoredBinding
 import com.example.filmsbrowser.model.Film
 import com.example.filmsbrowser.viewModel.FavoredViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 
 class FavoredActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
-    private lateinit var database: FirebaseDatabase
-    private lateinit var binding: ActivityFavoredBinding
+    private val auth = FirebaseAuth.getInstance()
+    private val binding = ActivityFavoredBinding.inflate(layoutInflater)
     private lateinit var favoredAdapter: FavoredAdapter
     private lateinit var favoredViewModel: FavoredViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFavoredBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        auth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance()
 
         binding.filmsList.layoutManager = LinearLayoutManager(this)
 

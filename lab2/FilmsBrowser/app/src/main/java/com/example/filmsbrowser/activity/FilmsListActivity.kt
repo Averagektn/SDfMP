@@ -13,14 +13,13 @@ import com.example.filmsbrowser.model.Film
 import com.example.filmsbrowser.viewModel.FilmsListViewModel
 
 class FilmsListActivity : AppCompatActivity() {
-    private lateinit var viewModel: FilmsListViewModel
+    private val binding = ActivityFilmsListBinding.inflate(layoutInflater)
 
-    private lateinit var binding: ActivityFilmsListBinding
+    private lateinit var viewModel: FilmsListViewModel
     private lateinit var filmListAdapter: FilmListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFilmsListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[FilmsListViewModel::class.java]

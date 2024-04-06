@@ -9,12 +9,12 @@ import com.example.filmsbrowser.databinding.ActivityAuthorizationBinding
 import com.example.filmsbrowser.viewModel.AuthorizationViewModel
 
 class AuthorizationActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAuthorizationBinding
+    private val binding = ActivityAuthorizationBinding.inflate(layoutInflater)
+
     private lateinit var viewModel: AuthorizationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAuthorizationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[AuthorizationViewModel::class.java]
