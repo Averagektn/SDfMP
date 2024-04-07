@@ -91,14 +91,14 @@ class FilmActivity : AppCompatActivity() {
     }
 
     private fun addToFavored() {
-        filmViewModel.getFavoredFilms(auth.currentUser!!.uid)?.observe(this) { films ->
-            films?.let {
-                val itemsList = films.toMutableList()
-                itemsList.add(filmId)
-                filmViewModel.updateFavoredFilms(auth.currentUser!!.uid, itemsList)
-            }
+        val favoredFilms = filmViewModel.getFavoredFilms(auth.currentUser!!.uid)?.value
+        favoredFilms?.let {
+            val itemsList = favoredFilms.toMutableList()
+            itemsList.add(filmId)
+            filmViewModel.updateFavoredFilms(auth.currentUser!!.uid, itemsList)
         }
     }
+
 
     private fun initializeFilm() {
         filmViewModel.getFilm(filmId).observe(this) { film ->
