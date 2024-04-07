@@ -10,10 +10,11 @@ import com.example.filmsbrowser.viewModel.RegistrationViewModel
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var viewModel: RegistrationViewModel
-    private val binding = ActivityRegistrationBinding.inflate(layoutInflater)
+    private lateinit var binding: ActivityRegistrationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[RegistrationViewModel::class.java]
