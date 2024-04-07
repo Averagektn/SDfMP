@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCo_FzDWV9iv7_m-dbKNW7oYPRb6JpsJUA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>697537168507</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>ios.bsuir.mycoolfilms</string>
+	<key>PROJECT_ID</key>
+	<string>films-browser-8b64a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>films-browser-8b64a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:697537168507:ios:231fbb9db301a2bb8d8ede</string>
+	<key>DATABASE_URL</key>
+	<string>https://films-browser-8b64a-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
