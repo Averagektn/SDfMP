@@ -4,3 +4,4 @@
 /posters
 *.zip
 /creds MAC
+*.DS_Store
