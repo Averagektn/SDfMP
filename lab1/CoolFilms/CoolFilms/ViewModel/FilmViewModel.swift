@@ -24,10 +24,10 @@ class FilmViewModel: ObservableObject {
     func removeFromFavored(){
         let favoredRef = self.database.reference().child("favored").child(uid!)
         
-        favoredRef.observeSingleEvent(of: .value) { [self] snapshot in
+        favoredRef.observeSingleEvent(of: .value) { snapshot in
             if snapshot.exists() {
                 if var data = snapshot.value as? [String: Any] {
-                    data = data.filter { $0.value as? String != film.id! }
+                    data = data.filter { $0.value as? String != self.film.id! }
                     favoredRef.setValue(data)
                 }
             }
@@ -37,10 +37,10 @@ class FilmViewModel: ObservableObject {
     func checkIfFilmIdExists(completion: @escaping (Bool) -> Void) {
         let favoredRef = database.reference().child("favored").child(uid!)
         
-        favoredRef.observeSingleEvent(of: .value) { snapshot in
+        favoredRef.observeSingleEvent(of: .value) { [self] snapshot in
             if let data = snapshot.value as? [String: Any] {
                 for value in data.values {
-                    if let filmId = value as? String, filmId == self.film.id! {
+                    if let filmId = value as? String, filmId == film.id! {
                         completion(true)
                         return
                     }
@@ -56,13 +56,16 @@ class FilmViewModel: ObservableObject {
     }
     
     func addComment() {
-        database.reference().child("users").child(uid!).child("login").observeSingleEvent(of: .value) { [self] (snapshot) in
+        database.reference().child("users").child(uid!).child("login").observeSingleEvent(of: .value) { [self] snapshot in
+            
             let comment = Comment(author: snapshot.value as! String, comment: self.newComment)
             let commentsRef = self.database.reference().child("comments").child(film.id!)
+            
             let commentDictionary: [String: Any] = [
                 "author": comment.author,
                 "text": comment.text
             ]
+            
             commentsRef.childByAutoId().setValue(commentDictionary)
             comments.append(comment)
         }
@@ -137,7 +140,7 @@ class FilmViewModel: ObservableObject {
             let posterRef = storage.reference().child("posters").child(film.id!)
             posterRef.downloadURL { url, error in
                 if let imageURL = url {
-                    URLSession.shared.dataTask(with: imageURL) { data, response, error in
+                    URLSession.shared.dataTask(with: imageURL) { data, _, _ in
                         if let data = data, let image = UIImage(data: data) {
                             FilmViewModel.cache.setObject(image, forKey: self.film.id! as NSString)
                         }

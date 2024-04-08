@@ -59,7 +59,3 @@ struct AuthorizationView: View {
         }
     }
 }
-
-#Preview {
-    AuthorizationView()
-}

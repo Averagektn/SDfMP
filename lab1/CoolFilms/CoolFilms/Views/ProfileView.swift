@@ -4,7 +4,11 @@ import FirebaseDatabaseInternal
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: ProfileViewModel
-    @State private var image: UIImage? = nil
+    
+    @StateObject private var filmsListViewModel = FilmsListViewModel()
+    @StateObject private var favoredViewModel = FavoredViewModel()
+    @StateObject private var registrationViewModel = RegistrationViewModel()
+    
     @State private var isShowingAlert = false
     @State private var notAuthorized = false
     @State private var isShowImagePicker = false
@@ -44,7 +48,7 @@ struct ProfileView: View {
                     })
                 }
                 .fullScreenCover(isPresented: $notAuthorized, content: {
-                    RegistrationView().environmentObject(RegistrationViewModel())
+                    RegistrationView().environmentObject(registrationViewModel)
                 })
                 
                 HStack {
@@ -134,7 +138,7 @@ struct ProfileView: View {
                 }
                 
                 HStack {
-                    NavigationLink(destination: FavoredView().environmentObject(FavoredViewModel())) {
+                    NavigationLink(destination: FavoredView().environmentObject(favoredViewModel)) {
                         Text("Favored")
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -153,7 +157,7 @@ struct ProfileView: View {
                             .cornerRadius(10)
                     }
                     
-                    NavigationLink(destination: FilmsListView().environmentObject(FilmsListViewModel())) {
+                    NavigationLink(destination: FilmsListView().environmentObject(filmsListViewModel)) {
                         Text("Films")
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -170,8 +174,4 @@ struct ProfileView: View {
             viewModel.loadData()
         }
     }
-}
-
-#Preview {
-    ProfileView()
 }

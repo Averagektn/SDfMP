@@ -2,6 +2,11 @@ import SwiftUI
 
 struct FilmView: View {
     @ObservedObject private var viewModel: FilmViewModel
+    
+    @StateObject private var favoredViewModel = FavoredViewModel()
+    @StateObject private var filmsListViewModel = FilmsListViewModel()
+    @StateObject private var profileViewModel = ProfileViewModel()
+    
     @State private var isAddedToFavored = false
     
     init(film: Film) {
@@ -70,7 +75,7 @@ struct FilmView: View {
             .padding()
             
             HStack {
-                NavigationLink(destination: FilmsListView().environmentObject(FilmsListViewModel())) {
+                NavigationLink(destination: FilmsListView().environmentObject(filmsListViewModel)) {
                     Text("Films")
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -79,7 +84,7 @@ struct FilmView: View {
                         .cornerRadius(10)
                 }
                 
-                NavigationLink(destination: ProfileView().environmentObject(ProfileViewModel())) {
+                NavigationLink(destination: ProfileView().environmentObject(profileViewModel)) {
                     Text("Profile")
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -88,7 +93,7 @@ struct FilmView: View {
                         .cornerRadius(10)
                 }
                 
-                NavigationLink(destination: FavoredView().environmentObject(FavoredViewModel())) {
+                NavigationLink(destination: FavoredView().environmentObject(favoredViewModel)) {
                     Text("Favored")
                         .fontWeight(.bold)
                         .foregroundColor(.white)

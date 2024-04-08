@@ -1,7 +1,5 @@
 import SwiftUI
 import FirebaseDatabase
-import FirebaseStorage
-import SystemConfiguration
 
 class FilmsListViewModel: ObservableObject {
     @Published var films: [Film] = []

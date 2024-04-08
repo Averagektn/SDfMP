@@ -1,15 +1,9 @@
-//
-//  FilmRow.swift
-//  CoolFilms
-//
-//  Created by user252958 on 4/7/24.
-//
-
 import SwiftUI
 
 struct FilmRow: View {
-    @State private var image: UIImage? = nil
     @ObservedObject var viewModel: FilmViewModel
+    
+    @State private var image: UIImage? = nil
     
     var body: some View {
         NavigationLink(destination: FilmView(film: viewModel.film)) {
