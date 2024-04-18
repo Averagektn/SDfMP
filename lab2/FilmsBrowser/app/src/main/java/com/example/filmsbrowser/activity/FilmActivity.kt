@@ -77,11 +77,12 @@ class FilmActivity : AppCompatActivity() {
                     filmViewModel.addComment(filmId, Comment(user.login, binding.etComment.text.toString()))
                 }
             }
+            filmViewModel.getUser(uid).removeObservers(this)
         }
     }
 
     private fun checkIfFilmInFavored() {
-        filmViewModel.getFavoredFilms(auth.currentUser!!.uid)?.observe(this) { films ->
+        filmViewModel.getFavoredFilms(auth.currentUser!!.uid).observe(this) { films ->
             films?.let {
                 if (films.contains(filmId)) {
                     binding.btnAddToFavored.visibility = View.GONE
@@ -91,7 +92,7 @@ class FilmActivity : AppCompatActivity() {
     }
 
     private fun addToFavored() {
-        val favoredFilms = filmViewModel.getFavoredFilms(auth.currentUser!!.uid)?.value
+        val favoredFilms = filmViewModel.getFavoredFilms(auth.currentUser!!.uid).value
         favoredFilms?.let {
             val itemsList = favoredFilms.toMutableList()
             itemsList.add(filmId)
@@ -119,7 +120,7 @@ class FilmActivity : AppCompatActivity() {
             sliderAdapter.notifyDataSetChanged()
         } else {
             uriList[filmId] = ArrayList()
-            filmViewModel.getFilmImages(storageRef)?.observe(this) { uri ->
+            filmViewModel.getFilmImages(storageRef).observe(this) { uri ->
                 uri?.let {
                     uriList[filmId]!!.add(uri)
                     val sliderAdapter = ImageSliderAdapter(this, uriList[filmId]!!)

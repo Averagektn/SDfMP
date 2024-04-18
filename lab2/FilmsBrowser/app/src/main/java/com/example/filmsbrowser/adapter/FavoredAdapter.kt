@@ -1,5 +1,6 @@
 package com.example.filmsbrowser.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -45,6 +46,7 @@ class FavoredAdapter(private val context: Context, private var films: ArrayList<
         return films.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: FilmHolder, position: Int) {
         val model = films[position]
         holder.name.text = model.name
