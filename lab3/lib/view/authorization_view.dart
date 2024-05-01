@@ -45,7 +45,7 @@ class _AuthorizationViewState extends State<AuthorizationView> {
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data!) {
                   //return const FilmsListView();
-                  return const RegistrationView();
+                  return RegistrationView();
                 } else {
                   return ElevatedButton(
                     onPressed: () => viewModel.authorization(),
@@ -59,7 +59,7 @@ class _AuthorizationViewState extends State<AuthorizationView> {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const RegistrationView(),
+                  builder: (context) => RegistrationView(),
                 ),
               ),
               child: const Text("Sign Up"),

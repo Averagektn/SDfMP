@@ -1,70 +1,36 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:flutter/cupertino.dart';
 
-class RegistrationViewModel {
-  final BehaviorSubject<String> login = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> email = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> password = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> alert = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<bool> isShowFilmsListView =
-      BehaviorSubject<bool>.seeded(false);
-  final BehaviorSubject<bool> isShowAlert = BehaviorSubject<bool>.seeded(false);
+class RegistrationViewModel extends ChangeNotifier {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final DatabaseReference _database = FirebaseDatabase.instance.ref();
 
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  final FirebaseDatabase database = FirebaseDatabase.instance;
+  bool isShowFilmsListView = false;
+  bool isShowAlert = false;
 
-  void hidePopup() {
-    isShowAlert.add(false);
-  }
-
-  void showAlert(String message) {
-    alert.add(message);
-    isShowAlert.add(true);
-  }
-
-  void registerUser() async {
-    if (login.value.length < 4 ||
-        password.value.length < 8 ||
-        email.value.isEmpty) {
-      showAlert("Invalid data in input fields");
+  Future<void> registerUser(String login, String email, String password) async {
+    if (login.length < 4 || password.length < 8 || email.isEmpty) {
       return;
     }
 
-    try {
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-        email: email.value,
-        password: password.value,
-      );
+    final UserCredential result = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
 
-      User? user = userCredential.user;
-
-      if (user == null) {
-        showAlert("No user created");
-        return;
-      }
-
-      Map<String, dynamic> userData = {
-        "login": login.value,
-        "email": email.value,
-      };
-
-      await database.ref("users").child(user.uid).set(userData);
-
-      isShowFilmsListView.add(true);
-    } on FirebaseAuthException catch (e) {
-      showAlert("Error creating user: ${e.message}");
-    } catch (e) {
-      showAlert("Error creating user: $e");
+    final user = result.user;
+    if (user == null) {
+      return;
     }
-  }
 
-  void dispose() {
-    login.close();
-    email.close();
-    password.close();
-    alert.close();
-    isShowFilmsListView.close();
-    isShowAlert.close();
+    final userData = {
+      'login': login,
+      'email': email,
+    };
+
+    await _database.child('users').child(user.uid).set(userData);
+    isShowFilmsListView = true;
+    notifyListeners();
   }
 }
