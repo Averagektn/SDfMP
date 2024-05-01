@@ -44,7 +44,8 @@ class _AuthorizationViewState extends State<AuthorizationView> {
               stream: viewModel.isShowFilmsListView,
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data!) {
-                  return const FilmsListView();
+                  //return const FilmsListView();
+                  return const RegistrationView();
                 } else {
                   return ElevatedButton(
                     onPressed: () => viewModel.authorization(),
