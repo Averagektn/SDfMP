@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lab3/viewmodel/authorization_viewmodel.dart';
+import 'films_list_view.dart';
 import 'registration_view.dart';
 
 class AuthorizationView extends StatefulWidget {
@@ -39,19 +40,19 @@ class _AuthorizationViewState extends State<AuthorizationView> {
               obscureText: true,
             ),
             const SizedBox(height: 20.0),
-/*            StreamBuilder<bool>(
+            StreamBuilder<bool>(
               stream: viewModel.isShowFilmsListView,
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data!) {
-                  return FilmsListView(viewModel: filmsListViewModel);
+                  return const FilmsListView();
                 } else {
                   return ElevatedButton(
                     onPressed: () => viewModel.authorization(),
-                    child: Text("Sign In"),
+                    child: const Text("Sign In"),
                   );
                 }
               },
-            ),*/
+            ),
             const SizedBox(height: 10.0),
             TextButton(
               onPressed: () => Navigator.push(

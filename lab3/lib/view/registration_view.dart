@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lab3/viewmodel/registration_viewmodel.dart';
 
 import 'authorization_view.dart';
+import 'films_list_view.dart';
 
 class RegistrationView extends StatefulWidget {
   const RegistrationView({super.key});
@@ -45,11 +46,11 @@ class _RegistrationViewState extends State<RegistrationView> {
               obscureText: true,
             ),
             const SizedBox(height: 20.0),
-/*            StreamBuilder<bool>(
+            StreamBuilder<bool>(
               stream: viewModel.isShowFilmsListView,
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data!) {
-                  return FilmsListView(viewModel: filmsListViewModel);
+                  return const FilmsListView();
                 } else {
                   return ElevatedButton(
                     onPressed: () => viewModel.registerUser(),
@@ -57,7 +58,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                   );
                 }
               },
-            ),*/
+            ),
             const SizedBox(height: 10.0),
             TextButton(
               onPressed: () => Navigator.push(
