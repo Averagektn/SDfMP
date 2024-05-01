@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:lab3/viewmodel/registration_viewmodel.dart';
+import 'package:lab3/viewmodel/authorization_viewmodel.dart';
+import 'registration_view.dart';
 
-import 'authorization_view.dart';
-
-class RegistrationView extends StatefulWidget {
-  const RegistrationView({super.key});
+class AuthorizationView extends StatefulWidget {
+  const AuthorizationView({super.key});
 
   @override
-  createState() => _RegistrationViewState();
+  createState() => _AuthorizationViewState();
 }
 
-class _RegistrationViewState extends State<RegistrationView> {
-  final viewModel = RegistrationViewModel();
+class _AuthorizationViewState extends State<AuthorizationView> {
+  final viewModel = AuthorizationViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +23,8 @@ class _RegistrationViewState extends State<RegistrationView> {
         child: Column(
           children: [
             const Text(
-              "Sign Up",
+              "Sign In",
               style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10.0),
-            TextField(
-              decoration: const InputDecoration(hintText: "Enter login"),
-              onChanged: (value) => viewModel.login.add(value),
             ),
             const SizedBox(height: 10.0),
             TextField(
@@ -52,8 +46,8 @@ class _RegistrationViewState extends State<RegistrationView> {
                   return FilmsListView(viewModel: filmsListViewModel);
                 } else {
                   return ElevatedButton(
-                    onPressed: () => viewModel.registerUser(),
-                    child: const Text("Sign Up"),
+                    onPressed: () => viewModel.authorization(),
+                    child: Text("Sign In"),
                   );
                 }
               },
@@ -63,10 +57,10 @@ class _RegistrationViewState extends State<RegistrationView> {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AuthorizationView(),
+                  builder: (context) => const RegistrationView(),
                 ),
               ),
-              child: const Text("Sign In"),
+              child: const Text("Sign Up"),
             ),
           ],
         ),
