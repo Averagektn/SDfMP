@@ -14,7 +14,6 @@ class RegistrationView extends StatefulWidget {
 }
 
 class _RegistrationViewState extends State<RegistrationView> {
-  final _formKey = GlobalKey<FormState>();
   final _loginController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -35,7 +34,6 @@ class _RegistrationViewState extends State<RegistrationView> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
-            key: _formKey,
             child: Column(
               children: [
                 TextFormField(
@@ -85,21 +83,19 @@ class _RegistrationViewState extends State<RegistrationView> {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          final login = _loginController.text;
-                          final email = _emailController.text;
-                          final password = _passwordController.text;
+                        final login = _loginController.text;
+                        final email = _emailController.text;
+                        final password = _passwordController.text;
 
-                          await widget.viewModel
-                              .registerUser(login, email, password);
+                        await widget.viewModel
+                            .registerUser(login, email, password);
 
-                          if (widget.viewModel.isShowFilmsListView) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const FilmsListView()),
-                            );
-                          }
+                        if (widget.viewModel.isShowFilmsListView) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FilmsListView()),
+                          );
                         }
                       },
                       child: const Text('Sign up'),
@@ -109,7 +105,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AuthorizationView()),
+                              builder: (context) => AuthorizationView()),
                         );
                       },
                       child: const Text('Log in'),
