@@ -7,6 +7,8 @@ import '../viewmodel/films_list_viewmodel.dart';
 import 'film_row.dart';
 
 class FilmsListView extends StatefulWidget {
+  const FilmsListView({super.key});
+
   @override
   _FilmsListViewState createState() => _FilmsListViewState();
 }
@@ -73,7 +75,7 @@ class _FilmsListViewState extends State<FilmsListView> {
                             ),
                           );
                         },
-                        child: Text('Favored'),
+                        child: const Text('Favored'),
                       ),
                       ElevatedButton(
                         onPressed: () {
@@ -84,7 +86,7 @@ class _FilmsListViewState extends State<FilmsListView> {
                             ),
                           );
                         },
-                        child: Text('Profile'),
+                        child: const Text('Profile'),
                       ),
                     ],
                   ),
