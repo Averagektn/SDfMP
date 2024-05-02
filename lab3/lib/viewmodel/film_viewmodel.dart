@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 import '../model/comment.dart';
 import '../model/film.dart';
@@ -97,13 +100,19 @@ class FilmViewModel extends ChangeNotifier {
   }
 
   Future<ImageProvider?> loadImage() async {
-    if (!cache.containsKey(film.id)) {
-      final posterRef = _storage.ref().child("posters").child(film.id!);
-      final url = await posterRef.getDownloadURL();
-      final image = NetworkImage(url);
-      cache[film.id!] = image;
-      return image;
+    if (cache.containsKey(film.id)) {
+      return cache[film.id];
     }
-    return cache[film.id];
+
+    final posterRef = _storage.ref().child("posters").child(film.id!);
+    final url = await posterRef.getDownloadURL();
+
+    final response = await get(Uri.parse(url));
+    final bytes = response.bodyBytes;
+
+    final imageData = Uint8List.fromList(bytes);
+
+    cache[film.id!] = MemoryImage(imageData);
+    return cache[film.id!];
   }
 }
