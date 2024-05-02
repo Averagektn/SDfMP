@@ -4,10 +4,8 @@ import FirebaseDatabaseInternal
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: ProfileViewModel
-    @State private var image: UIImage? = nil
     @State private var isShowingAlert = false
     @State private var notAuthorized = false
-    @State private var isShowImagePicker = false
     
     var body: some View {
         ZStack {
