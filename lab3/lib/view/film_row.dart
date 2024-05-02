@@ -6,19 +6,18 @@ import 'film_view.dart';
 class FilmRow extends StatefulWidget {
   final FilmViewModel viewModel;
 
-  const FilmRow({super.key, required this.viewModel});
+  const FilmRow({Key? key, required this.viewModel}) : super(key: key);
 
   @override
-  State<FilmRow> createState() => _FilmRowState();
+  _FilmRowState createState() => _FilmRowState();
 }
 
 class _FilmRowState extends State<FilmRow> {
-  Image? image;
+  ImageProvider? image;
 
   @override
   void initState() {
     super.initState();
-    widget.viewModel.loadImage();
     widget.viewModel.getImage().then((loadedImage) {
       setState(() {
         image = loadedImage;
@@ -28,7 +27,7 @@ class _FilmRowState extends State<FilmRow> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.push(
           context,
@@ -41,32 +40,38 @@ class _FilmRowState extends State<FilmRow> {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            if (image != null)
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: image!.image,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              )
-            else
-              const Icon(Icons.photo, size: 100, color: Colors.grey),
-            const SizedBox(width: 16),
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                image: image != null
+                    ? DecorationImage(image: image!, fit: BoxFit.cover)
+                    : null,
+              ),
+              child: image == null
+                  ? Icon(Icons.photo, size: 50, color: Colors.white)
+                  : null,
+            ),
+            SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.viewModel.film.name,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     widget.viewModel.film.categories.join(", "),
-                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    widget.viewModel.film.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),

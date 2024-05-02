@@ -1,10 +1,3 @@
-//
-//  FilmRow.swift
-//  CoolFilms
-//
-//  Created by user252958 on 4/7/24.
-//
-
 import SwiftUI
 
 struct FilmRow: View {

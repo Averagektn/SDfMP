@@ -1,34 +1,31 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import '../model/film.dart';
 
-class FilmsListViewModel {
-  final BehaviorSubject<List<Film>> films = BehaviorSubject<List<Film>>.seeded([]);
+class FilmsListViewModel extends ChangeNotifier {
+  List<Film> films = [];
 
-  final FirebaseFirestore database = FirebaseFirestore.instance;
-
-  FilmsListViewModel() {
-    loadFilms();
-  }
+  final database = FirebaseDatabase.instance;
 
   void loadFilms() {
-    final filmsRef = database.collection('films');
-
-    filmsRef.snapshots().listen((snapshot) {
-      snapshot.docs.map((doc) {
-        final data = doc.data();
-        films.value.add(Film(
-          id: doc.id,
-          name: data['name'] as String,
-          categories: (data['categories'] as List).cast<String>(),
-          description: data['description'] as String,
-        ));
-      });
+    final filmsRef = database.ref().child('films');
+    filmsRef.onValue.listen((event) {
+      final snapshot = event.snapshot;
+      final films = <Film>[];
+      for (final child in snapshot.children) {
+        final filmId = child.key;
+        final filmValue = child.value as Map<dynamic, dynamic>;
+        final film = Film(
+          name: filmValue['name'] as String? ?? '',
+          categories: List<String>.from(filmValue['categories'] as List? ?? []),
+          description: filmValue['description'] as String? ?? '',
+          id: filmId
+        );
+        films.add(film);
+      }
+      this.films = films;
+      notifyListeners();
     });
-  }
-
-  void dispose() {
-    films.close();
   }
 }

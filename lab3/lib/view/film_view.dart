@@ -78,7 +78,7 @@ class _FilmViewState extends State<FilmView> {
               child: PageView.builder(
                 itemCount: viewModel.images.length,
                 itemBuilder: (context, index) {
-                  return Image(image: viewModel.images[index].image);
+                  return Image(image: viewModel.images[index]);
                 },
               ),
             ),
@@ -110,7 +110,7 @@ class _FilmViewState extends State<FilmView> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const FilmsListView(),
+                        builder: (context) => FilmsListView(),
                       ),
                     );
                   },

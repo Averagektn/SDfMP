@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:lab3/view/registration_view.dart';
+import 'package:provider/provider.dart';
 
 import '../viewmodel/film_viewmodel.dart';
 import '../viewmodel/films_list_viewmodel.dart';
 import 'film_row.dart';
 
 class FilmsListView extends StatefulWidget {
-  const FilmsListView({super.key});
-
   @override
-  State<FilmsListView> createState() => _FilmsListViewState();
+  _FilmsListViewState createState() => _FilmsListViewState();
 }
 
 class _FilmsListViewState extends State<FilmsListView> {
-  final FilmsListViewModel viewModel = FilmsListViewModel();
-  String searchText = "";
+  final viewModel = FilmsListViewModel();
+  String searchText = '';
 
   @override
   void initState() {
@@ -23,72 +23,78 @@ class _FilmsListViewState extends State<FilmsListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Films"),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                hintText: "Search",
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                setState(() {
-                  searchText = value;
-                });
-              },
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: viewModel.films.value
-                  .where((film) => searchText.isEmpty ||
-                  film.name.toLowerCase().contains(searchText.toLowerCase()))
-                  .length,
-              itemBuilder: (context, index) {
-                final film = viewModel.films.value.where((film) =>
-                searchText.isEmpty ||
-                    film.name.toLowerCase().contains(searchText.toLowerCase())).toList()[index];
-                return FilmRow(viewModel: FilmViewModel(film));
-              },
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return ChangeNotifierProvider(
+      create: (_) => viewModel,
+      child: Consumer<FilmsListViewModel>(
+        builder: (context, viewModel, child) {
+          return Scaffold(
+            body: Column(
               children: [
-/*                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FavoredView(),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        searchText = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                    );
-                  },
-                  child: const Text("Favored"),
-                ),*/
-/*                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfileView(),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: viewModel.films.length,
+                    itemBuilder: (context, index) {
+                      final film = viewModel.films[index];
+                      if (searchText.isEmpty || film.name.toLowerCase().contains(searchText.toLowerCase())) {
+                        return FilmRow(viewModel: FilmViewModel(film));
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegistrationView(),
+                            ),
+                          );
+                        },
+                        child: Text('Favored'),
                       ),
-                    );
-                  },
-                  child: const Text("Profile"),
-                ),*/
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegistrationView(),
+                            ),
+                          );
+                        },
+                        child: Text('Profile'),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 }
+
