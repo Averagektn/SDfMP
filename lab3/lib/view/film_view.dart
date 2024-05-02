@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lab3/view/favored_view.dart';
+import 'package:lab3/view/films_list_view.dart';
+import 'package:lab3/view/profile_view.dart';
 
 import '../model/film.dart';
 import '../viewmodel/film_viewmodel.dart';
@@ -127,17 +129,17 @@ class _FilmViewState extends State<FilmView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
-                    onPressed: () {}, // Navigate to FilmsListView
+                    onPressed: () {FilmsListView();}, // Navigate to FilmsListView
                     child: const Text('Films'),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      const FavoredView();
+                      ProfileView();
                     }, // Navigate to ProfileView
                     child: const Text('Profile'),
                   ),
                   ElevatedButton(
-                    onPressed: () {}, // Navigate to FavoredView
+                    onPressed: () {FavoredView();}, // Navigate to FavoredView
                     child: const Text('Favored'),
                   ),
                 ],

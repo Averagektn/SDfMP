@@ -5,11 +5,11 @@ import 'package:flutter/cupertino.dart';
 import '../model/user.dart' as my;
 
 class ProfileViewModel extends ChangeNotifier {
-  final my.User user;
+  late my.User user = my.User(login:  "", email:  "");
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseDatabase _database = FirebaseDatabase.instance;
 
-  ProfileViewModel(this.user);
+  ProfileViewModel();
 
   Future<void> loadData() async {
     final uid = _auth.currentUser?.uid;
@@ -18,6 +18,7 @@ class ProfileViewModel extends ChangeNotifier {
     final snapshot = await _database.ref().child("users").child(uid).get();
     if (snapshot.exists) {
       final data = snapshot.value as Map<dynamic, dynamic>;
+      user = my.User(login: data["login"] ?? "", email: data["email"] ?? "");
       user.information = data["info"] ?? "";
       user.username = data["name"] ?? "";
       user.surname = data["surname"] ?? "";

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lab3/view/films_list_view.dart';
+import 'package:lab3/view/profile_view.dart';
 import 'package:lab3/view/registration_view.dart';
 import 'package:provider/provider.dart';
 
@@ -86,7 +87,7 @@ class _FavoredViewState extends State<FavoredView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => RegistrationView(),
+                              builder: (context) => ProfileView(),
                             ),
                           );
                         },
