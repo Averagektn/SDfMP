@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lab3/view/favored_view.dart';
 import 'package:lab3/view/registration_view.dart';
 import 'package:provider/provider.dart';
 
@@ -71,7 +72,7 @@ class _FilmsListViewState extends State<FilmsListView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => RegistrationView(),
+                              builder: (context) => FavoredView(),
                             ),
                           );
                         },

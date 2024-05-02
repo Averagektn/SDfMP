@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lab3/view/favored_view.dart';
 
 import '../model/film.dart';
 import '../viewmodel/film_viewmodel.dart';
@@ -7,7 +8,7 @@ import 'comment_view.dart';
 class FilmView extends StatefulWidget {
   final Film film;
 
-  const FilmView({Key? key, required this.film}) : super(key: key);
+  const FilmView({super.key, required this.film});
 
   @override
   State<FilmView> createState() => _FilmViewState();
@@ -125,7 +126,7 @@ class _FilmViewState extends State<FilmView> {
                     child: const Text('Films'),
                   ),
                   ElevatedButton(
-                    onPressed: () {}, // Navigate to ProfileView
+                    onPressed: () {FavoredView();}, // Navigate to ProfileView
                     child: const Text('Profile'),
                   ),
                   ElevatedButton(
