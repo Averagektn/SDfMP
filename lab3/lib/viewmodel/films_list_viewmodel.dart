@@ -17,11 +17,11 @@ class FilmsListViewModel extends ChangeNotifier {
         final filmId = child.key;
         final filmValue = child.value as Map<dynamic, dynamic>;
         final film = Film(
-          name: filmValue['name'] as String? ?? '',
-          categories: List<String>.from(filmValue['categories'] as List? ?? []),
-          description: filmValue['description'] as String? ?? '',
-          id: filmId
-        );
+            name: filmValue['name'] as String? ?? '',
+            categories:
+                List<String>.from(filmValue['categories'] as List? ?? []),
+            description: filmValue['description'] as String? ?? '',
+            id: filmId);
         films.add(film);
       }
       this.films = films;

@@ -56,7 +56,8 @@ class _AuthorizationViewState extends State<AuthorizationView> {
                   if (widget.viewModel.isShowFilmsListView) {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => FilmsListView()),
+                      MaterialPageRoute(
+                          builder: (context) => const FilmsListView()),
                     );
                   }
                 },

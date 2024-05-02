@@ -50,7 +50,8 @@ class FilmViewModel extends ChangeNotifier {
   }
 
   Future<void> addComment() async {
-    final loginSnapshot = await _database.ref().child("users").child(_uid).child("login").get();
+    final loginSnapshot =
+        await _database.ref().child("users").child(_uid).child("login").get();
     final author = loginSnapshot.value as String;
     final comment = Comment(author: author, text: newComment);
     comments.add(comment);
@@ -65,7 +66,7 @@ class FilmViewModel extends ChangeNotifier {
 
   Future<void> getSlider() async {
     final cacheKey = film.id!;
-    if (cachedSlider.containsKey(cacheKey)){
+    if (cachedSlider.containsKey(cacheKey)) {
       images = cachedSlider[cacheKey]!;
     } else {
       final sliderRef = _storage.ref().child("film_images").child(film.id!);
@@ -95,7 +96,8 @@ class FilmViewModel extends ChangeNotifier {
       final commentsData = Map<String, dynamic>.from(snapshot.value as Map);
       comments = commentsData.values.map((commentData) {
         final commentDict = Map<String, String>.from(commentData as Map);
-        return Comment(author: commentDict["author"]!, text: commentDict["text"]!);
+        return Comment(
+            author: commentDict["author"]!, text: commentDict["text"]!);
       }).toList();
       notifyListeners();
     }

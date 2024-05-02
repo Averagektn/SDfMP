@@ -9,6 +9,7 @@ class FavoredViewModel extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   List<Film> _films = [];
+
   List<Film> get films => _films;
 
   void loadFilms() {
@@ -35,11 +36,11 @@ class FavoredViewModel extends ChangeNotifier {
           final filmValue = child.value as Map<dynamic, dynamic>;
           if (filmId != null && favoredFilmIds.contains(filmId)) {
             final film = Film(
-              name: filmValue['name'] as String? ?? '',
-              categories: List<String>.from(filmValue['categories'] as List? ?? []),
-              description: filmValue['description'] as String? ?? '',
-              id: filmId
-            );
+                name: filmValue['name'] as String? ?? '',
+                categories:
+                    List<String>.from(filmValue['categories'] as List? ?? []),
+                description: filmValue['description'] as String? ?? '',
+                id: filmId);
             films.add(film);
           }
         }

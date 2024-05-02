@@ -54,7 +54,10 @@ class _FilmsListViewState extends State<FilmsListView> {
                     itemCount: viewModel.films.length,
                     itemBuilder: (context, index) {
                       final film = viewModel.films[index];
-                      if (searchText.isEmpty || film.name.toLowerCase().contains(searchText.toLowerCase())) {
+                      if (searchText.isEmpty ||
+                          film.name
+                              .toLowerCase()
+                              .contains(searchText.toLowerCase())) {
                         return FilmRow(viewModel: FilmViewModel(film));
                       } else {
                         return Container();
@@ -72,7 +75,7 @@ class _FilmsListViewState extends State<FilmsListView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => FavoredView(),
+                              builder: (context) => const FavoredView(),
                             ),
                           );
                         },
@@ -100,4 +103,3 @@ class _FilmsListViewState extends State<FilmsListView> {
     );
   }
 }
-

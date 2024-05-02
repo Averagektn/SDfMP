@@ -94,7 +94,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FilmsListView()),
+                                builder: (context) => const FilmsListView()),
                           );
                         }
                       },

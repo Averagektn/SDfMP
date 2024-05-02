@@ -34,7 +34,7 @@ class ProfileViewModel extends ChangeNotifier {
     final uid = _auth.currentUser?.uid;
     if (uid == null) return;
 
-    final ref = _database.reference().child("users").child(uid);
+    final ref = _database.ref().child("users").child(uid);
     final userMap = {
       "login": user.login,
       "email": user.email,

@@ -50,10 +50,13 @@ class _FilmViewState extends State<FilmView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Text(widget.film.name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    child: Text(widget.film.name,
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
                   ),
                   IconButton(
-                    icon: Icon(_isAddedToFavored ? Icons.star : Icons.star_border),
+                    icon: Icon(
+                        _isAddedToFavored ? Icons.star : Icons.star_border),
                     onPressed: () {
                       if (_isAddedToFavored) {
                         _viewModel.removeFromFavored();
@@ -73,16 +76,17 @@ class _FilmViewState extends State<FilmView> {
                 height: 200,
                 child: _viewModel.images.isNotEmpty
                     ? PageView.builder(
-                  itemCount: _viewModel.images.length,
-                  itemBuilder: (context, index) {
-                    return Image(image: _viewModel.images[index]);
-                  },
-                )
-                    : CircularProgressIndicator(),
+                        itemCount: _viewModel.images.length,
+                        itemBuilder: (context, index) {
+                          return Image(image: _viewModel.images[index]);
+                        },
+                      )
+                    : const CircularProgressIndicator(),
               ),
 
               // Film Categories
-              Text(widget.film.categories.join(', '), style: const TextStyle(fontSize: 18)),
+              Text(widget.film.categories.join(', '),
+                  style: const TextStyle(fontSize: 18)),
 
               // Film Description
               Text(widget.film.description),
@@ -102,7 +106,8 @@ class _FilmViewState extends State<FilmView> {
                 children: [
                   Expanded(
                     child: TextField(
-                      decoration: const InputDecoration(hintText: 'Enter comment'),
+                      decoration:
+                          const InputDecoration(hintText: 'Enter comment'),
                       onChanged: (text) {
                         setState(() {
                           _viewModel.newComment = text;
@@ -126,7 +131,9 @@ class _FilmViewState extends State<FilmView> {
                     child: const Text('Films'),
                   ),
                   ElevatedButton(
-                    onPressed: () {FavoredView();}, // Navigate to ProfileView
+                    onPressed: () {
+                      const FavoredView();
+                    }, // Navigate to ProfileView
                     child: const Text('Profile'),
                   ),
                   ElevatedButton(

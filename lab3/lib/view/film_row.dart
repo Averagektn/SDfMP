@@ -6,7 +6,7 @@ import 'film_view.dart';
 class FilmRow extends StatefulWidget {
   final FilmViewModel viewModel;
 
-  const FilmRow({Key? key, required this.viewModel}) : super(key: key);
+  const FilmRow({super.key, required this.viewModel});
 
   @override
   _FilmRowState createState() => _FilmRowState();
@@ -50,24 +50,24 @@ class _FilmRowState extends State<FilmRow> {
                     : null,
               ),
               child: image == null
-                  ? Icon(Icons.photo, size: 50, color: Colors.white)
+                  ? const Icon(Icons.photo, size: 50, color: Colors.white)
                   : null,
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.viewModel.film.name,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     widget.viewModel.film.categories.join(", "),
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     widget.viewModel.film.description,
                     maxLines: 2,
