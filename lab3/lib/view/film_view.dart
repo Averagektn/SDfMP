@@ -21,6 +21,9 @@ class _FilmViewState extends State<FilmView> {
   void initState() {
     super.initState();
     _viewModel = FilmViewModel(widget.film);
+    _viewModel.addListener(() {
+      setState(() {});
+    });
     _viewModel.getComments();
     _viewModel.getSlider();
     _viewModel.checkIfFilmIdExists().then((isInFavored) {
