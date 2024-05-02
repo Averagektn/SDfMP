@@ -53,28 +53,38 @@ class FilmViewModel extends ChangeNotifier {
     final loginSnapshot = await _database.ref().child("users").child(_uid).child("login").get();
     final author = loginSnapshot.value as String;
     final comment = Comment(author: author, text: newComment);
+    comments.add(comment);
+    notifyListeners();
+
     final commentsRef = _database.ref().child("comments").child(film.id!);
     await commentsRef.push().set({
       "author": comment.author,
       "text": comment.text,
     });
-    comments.add(comment);
-    notifyListeners();
   }
 
   Future<void> getSlider() async {
-    final sliderRef = _storage.ref().child("film_images").child(film.id!);
     final cacheKey = film.id!;
+    if (cachedSlider.containsKey(cacheKey)){
+      images = cachedSlider[cacheKey]!;
+    } else {
+      final sliderRef = _storage.ref().child("film_images").child(film.id!);
 
-    final result = await sliderRef.listAll();
-    images = [];
+      final result = await sliderRef.listAll();
+      for (final file in result.items) {
+        final url = await file.getDownloadURL();
 
-    for (final file in result.items) {
-      final url = await file.getDownloadURL();
-      images.add(NetworkImage(url));
+        final response = await get(Uri.parse(url));
+        final bytes = response.bodyBytes;
+
+        final imageData = Uint8List.fromList(bytes);
+
+        images.add(MemoryImage(imageData));
+        notifyListeners();
+      }
+
+      cachedSlider[cacheKey] = images;
     }
-
-    cachedSlider[cacheKey] = images;
     notifyListeners();
   }
 
