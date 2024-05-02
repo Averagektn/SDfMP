@@ -5,3 +5,4 @@
 *.zip
 /creds MAC
 *.DS_Store
+*.exe
