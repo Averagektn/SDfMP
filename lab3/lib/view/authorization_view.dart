@@ -66,7 +66,7 @@ class _AuthorizationViewState extends State<AuthorizationView> {
               const SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => RegistrationView(),

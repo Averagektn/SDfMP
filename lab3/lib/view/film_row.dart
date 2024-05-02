@@ -9,7 +9,7 @@ class FilmRow extends StatefulWidget {
   const FilmRow({super.key, required this.viewModel});
 
   @override
-  _FilmRowState createState() => _FilmRowState();
+  createState() => _FilmRowState();
 }
 
 class _FilmRowState extends State<FilmRow> {
@@ -29,7 +29,7 @@ class _FilmRowState extends State<FilmRow> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => FilmView(film: widget.viewModel.film),
@@ -60,7 +60,8 @@ class _FilmRowState extends State<FilmRow> {
                 children: [
                   Text(
                     widget.viewModel.film.name,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 4),
                   Text(

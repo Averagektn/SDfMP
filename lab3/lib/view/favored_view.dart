@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lab3/view/films_list_view.dart';
 import 'package:lab3/view/profile_view.dart';
-import 'package:lab3/view/registration_view.dart';
 import 'package:provider/provider.dart';
 
 import '../viewmodel/favored_viewmodel.dart';
@@ -12,7 +11,7 @@ class FavoredView extends StatefulWidget {
   const FavoredView({super.key});
 
   @override
-  _FavoredViewState createState() => _FavoredViewState();
+  createState() => _FavoredViewState();
 }
 
 class _FavoredViewState extends State<FavoredView> {
@@ -73,7 +72,7 @@ class _FavoredViewState extends State<FavoredView> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const FilmsListView(),
@@ -84,10 +83,10 @@ class _FavoredViewState extends State<FavoredView> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProfileView(),
+                              builder: (context) => const ProfileView(),
                             ),
                           );
                         },

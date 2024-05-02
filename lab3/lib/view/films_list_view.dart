@@ -12,7 +12,7 @@ class FilmsListView extends StatefulWidget {
   const FilmsListView({super.key});
 
   @override
-  _FilmsListViewState createState() => _FilmsListViewState();
+  createState() => _FilmsListViewState();
 }
 
 class _FilmsListViewState extends State<FilmsListView> {
@@ -73,7 +73,7 @@ class _FilmsListViewState extends State<FilmsListView> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const FavoredView(),
@@ -84,10 +84,10 @@ class _FilmsListViewState extends State<FilmsListView> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProfileView(),
+                              builder: (context) => const ProfileView(),
                             ),
                           );
                         },

@@ -47,7 +47,6 @@ class _FilmViewState extends State<FilmView> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Film Info Section
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -72,8 +71,6 @@ class _FilmViewState extends State<FilmView> {
                   ),
                 ],
               ),
-
-              // Slider
               SizedBox(
                 height: 200,
                 child: _viewModel.images.isNotEmpty
@@ -85,15 +82,9 @@ class _FilmViewState extends State<FilmView> {
                       )
                     : const CircularProgressIndicator(),
               ),
-
-              // Film Categories
               Text(widget.film.categories.join(', '),
                   style: const TextStyle(fontSize: 18)),
-
-              // Film Description
               Text(widget.film.description),
-
-              // Comments List
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: _viewModel.comments.length,
@@ -102,8 +93,6 @@ class _FilmViewState extends State<FilmView> {
                   return CommentView(comment: comment);
                 },
               ),
-
-              // Comment Input Section
               Row(
                 children: [
                   Expanded(
@@ -123,23 +112,40 @@ class _FilmViewState extends State<FilmView> {
                   ),
                 ],
               ),
-
-              // Navigation Buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
-                    onPressed: () {FilmsListView();}, // Navigate to FilmsListView
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FilmsListView(),
+                        ),
+                      );
+                    }, // Navigate to FilmsListView
                     child: const Text('Films'),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      ProfileView();
-                    }, // Navigate to ProfileView
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfileView(),
+                        ),
+                      );
+                    },
                     child: const Text('Profile'),
                   ),
                   ElevatedButton(
-                    onPressed: () {FavoredView();}, // Navigate to FavoredView
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FavoredView(),
+                        ),
+                      );
+                    },
                     child: const Text('Favored'),
                   ),
                 ],

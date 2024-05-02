@@ -18,7 +18,7 @@ class CommentView extends StatelessWidget {
             comment.author,
             style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 4.0), // Add spacing between author and text
+          const SizedBox(height: 4.0),
           Text(comment.text),
         ],
       ),

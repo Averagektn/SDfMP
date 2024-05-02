@@ -9,7 +9,7 @@ class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
 
   @override
-  _ProfileViewState createState() => _ProfileViewState();
+  createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileView> {
@@ -40,7 +40,8 @@ class _ProfileViewState extends State<ProfileView> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: _viewModel.user.email),
+                    controller:
+                        TextEditingController(text: _viewModel.user.email),
                     readOnly: true,
                     autocorrect: false,
                     autofocus: false,
@@ -61,7 +62,8 @@ class _ProfileViewState extends State<ProfileView> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: _viewModel.user.login),
+                    controller:
+                        TextEditingController(text: _viewModel.user.login),
                   ),
                 ),
               ],
@@ -75,7 +77,9 @@ class _ProfileViewState extends State<ProfileView> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: _viewModel.user.country),
+                    controller:
+                        TextEditingController(text: _viewModel.user.country),
+                    onChanged: (value) => _viewModel.user.country = value,
                   ),
                 ),
               ],
@@ -89,7 +93,9 @@ class _ProfileViewState extends State<ProfileView> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: _viewModel.user.favoredFilm),
+                    controller: TextEditingController(
+                        text: _viewModel.user.favoredFilm),
+                    onChanged: (value) => _viewModel.user.favoredFilm = value,
                   ),
                 ),
               ],
@@ -103,7 +109,9 @@ class _ProfileViewState extends State<ProfileView> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: _viewModel.user.favoredGenre),
+                    controller: TextEditingController(
+                        text: _viewModel.user.favoredGenre),
+                    onChanged: (value) => _viewModel.user.favoredGenre = value,
                   ),
                 ),
               ],
@@ -117,7 +125,9 @@ class _ProfileViewState extends State<ProfileView> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: _viewModel.user.gender),
+                    controller:
+                        TextEditingController(text: _viewModel.user.gender),
+                    onChanged: (value) => _viewModel.user.gender = value,
                   ),
                 ),
               ],
@@ -131,7 +141,9 @@ class _ProfileViewState extends State<ProfileView> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: _viewModel.user.information),
+                    controller: TextEditingController(
+                        text: _viewModel.user.information),
+                    onChanged: (value) => _viewModel.user.information = value,
                   ),
                 ),
               ],
@@ -145,7 +157,9 @@ class _ProfileViewState extends State<ProfileView> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: _viewModel.user.username),
+                    controller:
+                        TextEditingController(text: _viewModel.user.username),
+                    onChanged: (value) => _viewModel.user.username = value,
                   ),
                 ),
               ],
@@ -159,7 +173,9 @@ class _ProfileViewState extends State<ProfileView> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: _viewModel.user.surname),
+                    controller:
+                        TextEditingController(text: _viewModel.user.surname),
+                    onChanged: (value) => _viewModel.user.surname = value,
                   ),
                 ),
               ],
@@ -173,7 +189,9 @@ class _ProfileViewState extends State<ProfileView> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: _viewModel.user.patronymic),
+                    controller:
+                        TextEditingController(text: _viewModel.user.patronymic),
+                    onChanged: (value) => _viewModel.user.patronymic = value,
                   ),
                 ),
               ],
@@ -183,7 +201,7 @@ class _ProfileViewState extends State<ProfileView> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const FilmsListView(),
@@ -195,12 +213,12 @@ class _ProfileViewState extends State<ProfileView> {
                 ElevatedButton(
                   onPressed: () {
                     _viewModel.update();
-                  }, // Navigate to ProfileView
+                  },
                   child: const Text('Update'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const FavoredView(),
@@ -240,8 +258,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   );
                 },
-                child: const Text('Delete')
-            ),
+                child: const Text('Delete')),
             TextButton(
               onPressed: () {
                 _viewModel.logout();
