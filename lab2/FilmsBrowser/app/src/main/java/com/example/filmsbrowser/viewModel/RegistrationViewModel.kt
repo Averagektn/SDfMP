@@ -1,72 +1,71 @@
 package com.example.filmsbrowser.viewModel
 
-import android.util.Patterns
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.filmsbrowser.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class RegistrationViewModel : ViewModel() {
     private val auth = FirebaseAuth.getInstance()
-    private val database = FirebaseDatabase.getInstance()
+    private val database = FirebaseDatabase.getInstance().reference
 
-    private val _registrationSuccess = MutableLiveData<Boolean>()
-    val registrationSuccess: LiveData<Boolean> = _registrationSuccess
+    var login: String = ""
+    var email: String = ""
+    var password: String = ""
 
-    private val _loginValidation = MutableLiveData<Boolean>()
-    val loginValidation: LiveData<Boolean> = _loginValidation
+    val registrationSuccess = MutableLiveData<Boolean>()
+    val loginValidation = MutableLiveData<Boolean>()
+    val emailValidation = MutableLiveData<Boolean>()
+    val passwordValidation = MutableLiveData<Boolean>()
+    val loginInUse = MutableLiveData<Boolean>()
 
-    private val _emailValidation = MutableLiveData<Boolean>()
-    val emailValidation: LiveData<Boolean> = _emailValidation
-
-    private val _passwordValidation = MutableLiveData<Boolean>()
-    val passwordValidation: LiveData<Boolean> = _passwordValidation
-
-    private val _loginInUse = MutableLiveData<Boolean>()
-    val loginInUse: LiveData<Boolean> = _loginInUse
-
-    fun registerUser(login: String, email: String, password: String) {
-        if (login.isEmpty() || login.length < 4) {
-            _loginValidation.value = false
-            return
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailValidation.value = false
-            return
-        }
-
-        if (password.isEmpty() || password.length < 8) {
-            _passwordValidation.value = false
-            return
-        }
-
-        val usersRef = database.getReference("users")
-        val query = usersRef.orderByChild("login").equalTo(login)
-
-        query.get().addOnCompleteListener { task ->
-            if (task.isSuccessful && !task.result.exists()) {
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { authTask ->
-                    if (authTask.isSuccessful) {
-                        addUser(login, email)
+    fun registerUser() {
+        if (validateInput()) {
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser!!
+                        val userData = mapOf(
+                            "login" to login,
+                            "email" to email
+                        )
+                        database.child("users").child(user.uid).setValue(userData)
+                            .addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    registrationSuccess.value = true
+                                } else {
+                                    registrationSuccess.value = false
+                                }
+                            }
                     } else {
-                        _registrationSuccess.value = false
+                        if (task.exception?.message?.contains("email address is already in use") == true) {
+                            loginInUse.value = true
+                        } else {
+                            registrationSuccess.value = false
+                        }
                     }
                 }
-            } else {
-                _loginInUse.value = true
-            }
         }
     }
 
-    private fun addUser(login: String, email: String) {
-        val users = FirebaseDatabase.getInstance().getReference("users").child(auth.currentUser!!.uid)
+    private fun validateInput(): Boolean {
+        var isValid = true
 
-        val newUser = User(login, email)
-        users.setValue(newUser).addOnCompleteListener { task ->
-            _registrationSuccess.value = task.isSuccessful
+        if (login.length < 4) {
+            loginValidation.value = false
+            isValid = false
         }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailValidation.value = false
+            isValid = false
+        }
+
+        if (password.length < 8) {
+            passwordValidation.value = false
+            isValid = false
+        }
+
+        return isValid
     }
 }

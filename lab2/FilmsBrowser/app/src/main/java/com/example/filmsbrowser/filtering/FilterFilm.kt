@@ -1,5 +1,6 @@
 package com.example.filmsbrowser.filtering
 
+import android.annotation.SuppressLint
 import android.widget.Filter
 import com.example.filmsbrowser.adapter.FilmListAdapter
 import com.example.filmsbrowser.model.Film
@@ -58,6 +59,7 @@ class FilterFilm(private var filterList: List<Film>, private var filmListAdapter
      * @see .performFiltering
      * @see android.widget.Filter.FilterResults
      */
+    @SuppressLint("NotifyDataSetChanged")
     override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
         if (results != null) {
             filmListAdapter.films = results.values as ArrayList<Film>

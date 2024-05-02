@@ -4,6 +4,7 @@ struct FavoredView: View {
     @EnvironmentObject private var viewModel: FavoredViewModel
     
     @StateObject private var filmsListViewModel = FilmsListViewModel()
+    @StateObject private var profileViewModel = ProfileViewModel()
     
     @State private var searchText = ""
     
@@ -31,7 +32,7 @@ struct FavoredView: View {
                         .cornerRadius(10)
                 }
                 
-                NavigationLink(destination: ProfileView().environmentObject(ProfileViewModel())) {
+                NavigationLink(destination: ProfileView().environmentObject(profileViewModel)) {
                     Text("Profile")
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -45,8 +46,4 @@ struct FavoredView: View {
             viewModel.loadFilms()
         }
     }
-}
-
-#Preview {
-    FavoredView()
 }

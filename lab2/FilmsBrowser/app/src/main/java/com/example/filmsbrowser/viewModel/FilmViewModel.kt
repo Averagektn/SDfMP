@@ -39,7 +39,6 @@ class FilmViewModel : ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle error
             }
         })
         return filmLiveData
@@ -64,7 +63,6 @@ class FilmViewModel : ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle error
             }
         })
         return favoredFilmsLiveData
@@ -83,7 +81,6 @@ class FilmViewModel : ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle error
             }
         })
         return userLiveData

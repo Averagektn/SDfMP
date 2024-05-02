@@ -1,5 +1,4 @@
 import Foundation
-import FirebaseFirestore
 import FirebaseAuth
 
 class AuthorizationViewModel: ObservableObject {
@@ -10,7 +9,6 @@ class AuthorizationViewModel: ObservableObject {
     @Published var isShowAlert = false
     
     private let auth = Auth.auth()
-    private let db = Firestore.firestore()
     
     func hidePopup(){
         isShowAlert = false

@@ -13,7 +13,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 
-class CommentsAdapter(context: Context, private val commentsRef: DatabaseReference) :
+class CommentsAdapter(context: Context, commentsRef: DatabaseReference) :
     ArrayAdapter<Comment>(context, 0) {
 
     private val comments: MutableList<Comment> = mutableListOf()
