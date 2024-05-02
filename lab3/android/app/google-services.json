@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "697537168507",
+    "firebase_url": "https://films-browser-8b64a-default-rtdb.firebaseio.com",
+    "project_id": "films-browser-8b64a",
+    "storage_bucket": "films-browser-8b64a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697537168507:android:ab45c3fbcf8ee95a8d8ede",
+        "android_client_info": {
+          "package_name": "com.example.filmsbrowser"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF2elWf8IwT5d-VQFLSnQif-bOs9wF_xU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697537168507:android:d355bf7d80723e938d8ede",
+        "android_client_info": {
+          "package_name": "com.example.lab3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF2elWf8IwT5d-VQFLSnQif-bOs9wF_xU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

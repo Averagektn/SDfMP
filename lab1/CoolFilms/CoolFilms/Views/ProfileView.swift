@@ -4,14 +4,11 @@ import FirebaseDatabaseInternal
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: ProfileViewModel
-    
     @StateObject private var filmsListViewModel = FilmsListViewModel()
     @StateObject private var favoredViewModel = FavoredViewModel()
     @StateObject private var registrationViewModel = RegistrationViewModel()
-    
     @State private var isShowingAlert = false
     @State private var notAuthorized = false
-    @State private var isShowImagePicker = false
     
     var body: some View {
         ZStack {
