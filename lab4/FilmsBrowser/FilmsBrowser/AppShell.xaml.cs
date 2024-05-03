@@ -11,6 +11,7 @@ namespace FilmsBrowser
         public AppShell()
         {
             InitializeComponent();
+
             Routing.RegisterRoute(nameof(FilmDetailPage), typeof(FilmDetailPage));
         }
     }

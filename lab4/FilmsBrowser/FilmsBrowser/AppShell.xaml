@@ -30,8 +30,12 @@
     </Shell.Resources>
 
     <TabBar>
-        <ShellContent Title="Films" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:FilmsPage}" />
+        <ShellContent Title="Films" Route="FilmsPage" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:FilmsPage}" />
         <ShellContent Title="Profile" Icon="icon_about.png" ContentTemplate="{DataTemplate local:ProfilePage}" />
         <ShellContent Title="Favored" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:FilmsPage}" />
+    </TabBar>
+
+    <TabBar>
+        <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
     </TabBar>
 </Shell>

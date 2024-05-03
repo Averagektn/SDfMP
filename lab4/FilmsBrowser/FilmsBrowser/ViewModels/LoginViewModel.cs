@@ -1,13 +1,18 @@
-﻿using FilmsBrowser.Views;
+﻿using FilmsBrowser.Config;
+using FilmsBrowser.Views;
+using Firebase.Auth;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace FilmsBrowser.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
+        public string Email { get; set; }
+        public string Password { get; set; }
         public Command LoginCommand { get; }
 
         public LoginViewModel()
@@ -17,8 +22,16 @@ namespace FilmsBrowser.ViewModels
 
         private async void OnLoginClicked(object obj)
         {
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"//{nameof(ProfilePage)}");
+            try
+            {
+                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(MyFirebaseConfig.WebApiKey));
+                var authResult = await authProvider.SignInWithEmailAndPasswordAsync(Email, Password);
+                var user = authResult.User;
+            }
+            catch (FirebaseAuthException ex)
+            {
+            }
+            await Shell.Current.GoToAsync($"//{nameof(FilmsPage)}");
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using FilmsBrowser.ViewModels;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
