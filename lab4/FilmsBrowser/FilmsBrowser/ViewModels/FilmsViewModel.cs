@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace FilmsBrowser.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class FilmsViewModel : BaseViewModel
     {
         private Item _selectedItem;
 
@@ -17,15 +17,13 @@ namespace FilmsBrowser.ViewModels
         public Command AddItemCommand { get; }
         public Command<Item> ItemTapped { get; }
 
-        public ItemsViewModel()
+        public FilmsViewModel()
         {
             Title = "Browse";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             ItemTapped = new Command<Item>(OnItemSelected);
-
-            AddItemCommand = new Command(OnAddItem);
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -67,18 +65,13 @@ namespace FilmsBrowser.ViewModels
             }
         }
 
-        private async void OnAddItem(object obj)
-        {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
-        }
-
         async void OnItemSelected(Item item)
         {
             if (item == null)
                 return;
 
-            // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            // This will push the FilmDetailPage onto the navigation stack
+            await Shell.Current.GoToAsync($"{nameof(FilmDetailPage)}?{nameof(FilmDetailViewModel.ItemId)}={item.Id}");
         }
     }
 }

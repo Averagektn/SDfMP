@@ -4,12 +4,12 @@ using Xamarin.Forms;
 
 namespace FilmsBrowser.Views
 {
-    public partial class ItemDetailPage : ContentPage
+    public partial class FilmDetailPage : ContentPage
     {
-        public ItemDetailPage()
+        public FilmDetailPage()
         {
             InitializeComponent();
-            BindingContext = new ItemDetailViewModel();
+            BindingContext = new FilmDetailViewModel();
         }
     }
 }

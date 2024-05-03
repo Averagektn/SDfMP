@@ -5,9 +5,9 @@ using Xamarin.Forms.Xaml;
 
 namespace FilmsBrowser.Views
 {
-    public partial class AboutPage : ContentPage
+    public partial class ProfilePage : ContentPage
     {
-        public AboutPage()
+        public ProfilePage()
         {
             InitializeComponent();
         }

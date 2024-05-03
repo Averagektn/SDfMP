@@ -14,7 +14,8 @@ namespace FilmsBrowser
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
-            MainPage = new AppShell();
+            //MainPage = new AppShell();
+            MainPage = new RegistrationPage();
         }
 
         protected override void OnStart()

@@ -7,7 +7,7 @@ using Xamarin.Forms;
 namespace FilmsBrowser.ViewModels
 {
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
-    public class ItemDetailViewModel : BaseViewModel
+    public class FilmDetailViewModel : BaseViewModel
     {
         private string itemId;
         private string text;

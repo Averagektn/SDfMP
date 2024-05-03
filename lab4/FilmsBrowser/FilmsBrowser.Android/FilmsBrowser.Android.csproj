@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3AD3A425-6D87-4666-BADC-9DFFB0422D3A}</ProjectGuid>
+    <ProjectGuid>{4E836196-C89E-4343-AB33-2CF459CD7E7B}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{6968b3a4-1835-46a3-ac5c-1ae33b475983}</TemplateGuid>
     <OutputType>Library</OutputType>
@@ -89,7 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FilmsBrowser\FilmsBrowser.csproj">
-      <Project>{F4DB8F5C-A537-48E5-857C-7DD887820514}</Project>
+      <Project>{0611F755-E04E-457A-9EDA-0A7FB676BE4B}</Project>
       <Name>FilmsBrowser</Name>
     </ProjectReference>
   </ItemGroup>
