@@ -15,7 +15,7 @@ class ProfileViewModel: ObservableObject {
     
     func loadData() {
         let database = Database.database().reference()
-
+        
         database.child("users").child(uid!).observeSingleEvent(of: .value) { (snapshot) in
             if let value = snapshot.value as? [String: Any] {
                 self.user.email = value["email"] as? String ?? "empty"
@@ -35,12 +35,10 @@ class ProfileViewModel: ObservableObject {
     }
     
     func logOut(){
-        func logOut() {
-            do {
-                try Auth.auth().signOut()
-            } catch let signOutError as NSError {
-                print("ERROR")
-            }
+        do {
+            try Auth.auth().signOut()
+        } catch let signOutError as NSError {
+            print("ERROR")
         }
     }
     

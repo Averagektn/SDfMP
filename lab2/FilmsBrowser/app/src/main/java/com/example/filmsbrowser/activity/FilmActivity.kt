@@ -77,6 +77,7 @@ class FilmActivity : AppCompatActivity() {
                     filmViewModel.addComment(filmId, Comment(user.login, binding.etComment.text.toString()))
                 }
             }
+            filmViewModel.getUser(uid).removeObservers(this)
         }
     }
 

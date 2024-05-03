@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct FilmRow: View {
-    @State private var image: UIImage? = nil
     @ObservedObject var viewModel: FilmViewModel
+    
+    @State private var image: UIImage? = nil
     
     var body: some View {
         NavigationLink(destination: FilmView(film: viewModel.film)) {
