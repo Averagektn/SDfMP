@@ -6,7 +6,8 @@
 
     <StackLayout Spacing="20" Padding="15">
         <Label Text="{Binding Film.Name}" FontSize="Large"/>
-        <Label Text="Description:" FontSize="Medium" />
+        <Label Text="{Binding Film.CategoriesString}" FontSize="Medium"/>
+        <Label Text="Description:" FontSize="Header" />
         <Label Text="{Binding Film.Description}" FontSize="Small"/>
     </StackLayout>
     

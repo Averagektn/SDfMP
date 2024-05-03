@@ -3,12 +3,10 @@ using FilmsBrowser.Config;
 using FilmsBrowser.Models;
 using FilmsBrowser.Views;
 using Firebase.Database;
-using Firebase.Storage;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -20,6 +18,7 @@ namespace FilmsBrowser.ViewModels
         public ObservableCollection<Film> Films { get; }
         public Command LoadFilmsCommand { get; }
         public Command<Film> FilmTapped { get; }
+        public string SearchText { get; set; }
 
         public FilmsViewModel()
         {
@@ -30,6 +29,16 @@ namespace FilmsBrowser.ViewModels
             FilmTapped = new Command<Film>(OnItemSelected);
         }
 
+        public void SearchFilm()
+        {
+            Films.Clear();
+            var found = FilmCache.Films.Values.Where(f => f.Name.ToLower().Contains(SearchText.ToLower()));
+            foreach (var film in found)
+            {
+                Films.Add(film);
+            }
+        }
+
         async Task ExecuteLoadItemsCommand()
         {
             IsBusy = true;
@@ -38,45 +47,30 @@ namespace FilmsBrowser.ViewModels
             {
                 Films.Clear();
 
-                var firebaseClient = new FirebaseClient(MyFirebaseConfig.DatabaseLink, new FirebaseOptions
+                if (FilmCache.Films.Count != 0)
                 {
-                    AuthTokenAsyncFactory = () => Task.FromResult(MyFirebaseConfig.WebApiKey)
-                });
-                var filmsRequest = await firebaseClient.Child("films").OnceAsync<Film>();
-                var films = filmsRequest.Select(f =>
+                    foreach (var film in FilmCache.Films.Values)
+                    {
+                        Films.Add(film);
+                    }
+                }
+                else
                 {
-                    f.Object.Id = f.Key;
-                    return f.Object;
-                });
+                    var firebaseClient = new FirebaseClient(MyFirebaseConfig.DatabaseLink, new FirebaseOptions
+                    {
+                        AuthTokenAsyncFactory = () => Task.FromResult(MyFirebaseConfig.WebApiKey)
+                    });
+                    var filmsRequest = await firebaseClient.Child("films").OnceAsync<Film>();
+                    var films = filmsRequest.Select(f =>
+                    {
+                        f.Object.Id = f.Key;
+                        return f.Object;
+                    });
 
-                var storage = new FirebaseStorage("films-browser-8b64a.appspot.com", new FirebaseStorageOptions
-                {
-                    AuthTokenAsyncFactory = () => Task.FromResult(MyFirebaseConfig.WebApiKey)
-                });
-                using (var client = new HttpClient())
-                {
                     foreach (var film in films)
                     {
-                        if (FilmCache.Films.ContainsKey(film.Id))
-                        {
-                            Films.Add(FilmCache.Films[film.Id]);
-                        }
-                        else
-                        {
-                            var downloadUrl = await storage
-                                .Child("posters")
-                                .Child(film.Id)
-                                .GetDownloadUrlAsync();
-
-                            var response = await client.GetAsync(downloadUrl);
-                            if (response.IsSuccessStatusCode)
-                            {
-                                var stream = await response.Content.ReadAsStreamAsync();
-                                film.Source = ImageSource.FromStream(() => stream);
-                            }
-                            FilmCache.Films.Add(film.Id, film);
-                            Films.Add(film);
-                        }                    
+                        FilmCache.Films.Add(film.Id, film);
+                        Films.Add(film);
                     }
                 }
             }

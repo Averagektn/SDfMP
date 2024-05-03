@@ -11,12 +11,8 @@ namespace FilmsBrowser.Models
         public string[] Categories { get; set; }
         public string CategoriesString => string.Join(" ", Categories);
         public string Description { get; set; }
-        public ImageSource Source { get; set; }
 
-        public Film() : this(string.Empty, new string[1] { string.Empty }, string.Empty)
-        {
-
-        }
+        public Film() : this(string.Empty, new string[1] { string.Empty }, string.Empty) { }
 
         public Film(string name, string[] categories, string description)
         {

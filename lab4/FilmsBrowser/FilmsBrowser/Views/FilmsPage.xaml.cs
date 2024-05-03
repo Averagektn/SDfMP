@@ -10,7 +10,6 @@ namespace FilmsBrowser.Views
         public FilmsPage()
         {
             InitializeComponent();
-
             BindingContext = _viewModel = new FilmsViewModel();
         }
 
@@ -18,6 +17,11 @@ namespace FilmsBrowser.Views
         {
             base.OnAppearing();
             _viewModel.OnAppearing();
+        }
+
+        private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _viewModel.SearchFilm();
         }
     }
 }
