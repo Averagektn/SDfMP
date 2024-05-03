@@ -1,4 +1,5 @@
-﻿using FilmsBrowser.Config;
+﻿using FilmsBrowser.Cache;
+using FilmsBrowser.Config;
 using FilmsBrowser.Models;
 using Firebase.Database;
 using Firebase.Database.Query;
@@ -70,18 +71,25 @@ namespace FilmsBrowser.ViewModels
 
         public async void LoadFilmId()
         {
-            try
+            if (FilmCache.Films.ContainsKey(FilmId))
             {
-                var firebaseClient = new FirebaseClient(MyFirebaseConfig.DatabaseLink, new FirebaseOptions
-                {
-                    AuthTokenAsyncFactory = () => Task.FromResult(MyFirebaseConfig.WebApiKey)
-                });
-
-                Film = await firebaseClient.Child("films").Child(filmId).OnceSingleAsync<Film>();
+                Film = FilmCache.Films[FilmId];
             }
-            catch (Exception)
+            else
             {
-                Debug.WriteLine("Failed to Load Film");
+                try
+                {
+                    var firebaseClient = new FirebaseClient(MyFirebaseConfig.DatabaseLink, new FirebaseOptions
+                    {
+                        AuthTokenAsyncFactory = () => Task.FromResult(MyFirebaseConfig.WebApiKey)
+                    });
+
+                    Film = await firebaseClient.Child("films").Child(filmId).OnceSingleAsync<Film>();
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine("Failed to Load Film");
+                }
             }
         }
 
