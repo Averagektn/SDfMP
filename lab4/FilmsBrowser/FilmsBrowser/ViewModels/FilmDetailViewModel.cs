@@ -1,5 +1,4 @@
-﻿using FilmsBrowser.Cache;
-using FilmsBrowser.Config;
+﻿using FilmsBrowser.Config;
 using FilmsBrowser.Models;
 using Firebase.Database;
 using Firebase.Database.Query;
@@ -15,8 +14,19 @@ namespace FilmsBrowser.ViewModels
     [QueryProperty(nameof(FilmId), nameof(FilmId))]
     public class FilmDetailViewModel : BaseViewModel
     {
+        private string _commentText;
+        public string CommentText
+        {
+            get => _commentText;
+            set
+            {
+                _commentText = value;
+                OnPropertyChanged(nameof(CommentText));
+            }
+        }
         private string filmId;
         private Film film;
+        public Command LeaveComment { get; }
         public ObservableCollection<Comment> Comments { get; }
         public Command LoadCommentsCommand { get; }
 
@@ -40,6 +50,22 @@ namespace FilmsBrowser.ViewModels
         {
             Comments = new ObservableCollection<Comment>();
             LoadCommentsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            LeaveComment = new Command(async () => await AddComment());
+        }
+
+        public async Task AddComment()
+        {
+            IsBusy = true;
+            var firebaseClient = new FirebaseClient(MyFirebaseConfig.DatabaseLink, new FirebaseOptions
+            {
+                AuthTokenAsyncFactory = () => Task.FromResult(MyFirebaseConfig.WebApiKey)
+            });
+            var user = await firebaseClient.Child("users").Child(MyFirebaseConfig.Uid).OnceSingleAsync<User>();
+            var comment = new Comment(user.Login, CommentText);
+            await firebaseClient.Child("comments").Child(filmId).PostAsync(comment);
+            Comments.Add(comment);
+            CommentText = string.Empty;
+            IsBusy = false;
         }
 
         public async void LoadFilmId()
