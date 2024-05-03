@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:viewmodels="clr-namespace:FilmsBrowser.ViewModels" 
-             x:DataType="viewmodels:FilmDetailViewModel"
              xmlns:local="clr-namespace:FilmsBrowser.ViewModels"  
              xmlns:model="clr-namespace:FilmsBrowser.Models" 
              x:Class="FilmsBrowser.Views.FilmDetailPage"
@@ -10,6 +9,15 @@
 
     <StackLayout Spacing="20" Padding="15">
         <Label Text="{Binding Film.Name}" FontSize="Large"/>
+
+        <CarouselView x:Name="Carousel">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding Source}"/>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
         <Label Text="{Binding Film.CategoriesString}" FontSize="Medium"/>
         <Label Text="Description:" FontSize="Header" />
         <Label Text="{Binding Film.Description}" FontSize="Small"/>
