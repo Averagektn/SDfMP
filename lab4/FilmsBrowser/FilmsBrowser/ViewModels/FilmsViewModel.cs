@@ -1,8 +1,14 @@
-﻿using FilmsBrowser.Models;
+﻿using FilmsBrowser.Cache;
+using FilmsBrowser.Config;
+using FilmsBrowser.Models;
 using FilmsBrowser.Views;
+using Firebase.Database;
+using Firebase.Storage;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -10,20 +16,18 @@ namespace FilmsBrowser.ViewModels
 {
     public class FilmsViewModel : BaseViewModel
     {
-        private Item _selectedItem;
-
-        public ObservableCollection<Item> Items { get; }
-        public Command LoadItemsCommand { get; }
-        public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        private Film _selectedItem;
+        public ObservableCollection<Film> Films { get; }
+        public Command LoadFilmsCommand { get; }
+        public Command<Film> FilmTapped { get; }
 
         public FilmsViewModel()
         {
-            Title = "Browse";
-            Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            Title = "Films";
+            Films = new ObservableCollection<Film>();
+            LoadFilmsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            ItemTapped = new Command<Item>(OnItemSelected);
+            FilmTapped = new Command<Film>(OnItemSelected);
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -32,11 +36,48 @@ namespace FilmsBrowser.ViewModels
 
             try
             {
-                Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
+                Films.Clear();
+
+                var firebaseClient = new FirebaseClient(MyFirebaseConfig.DatabaseLink, new FirebaseOptions
                 {
-                    Items.Add(item);
+                    AuthTokenAsyncFactory = () => Task.FromResult(MyFirebaseConfig.WebApiKey)
+                });
+                var filmsRequest = await firebaseClient.Child("films").OnceAsync<Film>();
+                var films = filmsRequest.Select(f =>
+                {
+                    f.Object.Id = f.Key;
+                    return f.Object;
+                });
+
+                var storage = new FirebaseStorage("films-browser-8b64a.appspot.com", new FirebaseStorageOptions
+                {
+                    AuthTokenAsyncFactory = () => Task.FromResult(MyFirebaseConfig.WebApiKey)
+                });
+                using (var client = new HttpClient())
+                {
+                    foreach (var film in films)
+                    {
+                        if (FilmCache.Films.ContainsKey(film.Id))
+                        {
+                            Films.Add(FilmCache.Films[film.Id]);
+                        }
+                        else
+                        {
+                            var downloadUrl = await storage
+                                .Child("posters")
+                                .Child(film.Id)
+                                .GetDownloadUrlAsync();
+
+                            var response = await client.GetAsync(downloadUrl);
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var stream = await response.Content.ReadAsStreamAsync();
+                                film.Source = ImageSource.FromStream(() => stream);
+                            }
+                            FilmCache.Films.Add(film.Id, film);
+                            Films.Add(film);
+                        }                    
+                    }
                 }
             }
             catch (Exception ex)
@@ -55,7 +96,7 @@ namespace FilmsBrowser.ViewModels
             SelectedItem = null;
         }
 
-        public Item SelectedItem
+        public Film SelectedItem
         {
             get => _selectedItem;
             set
@@ -65,12 +106,14 @@ namespace FilmsBrowser.ViewModels
             }
         }
 
-        async void OnItemSelected(Item item)
+        async void OnItemSelected(Film film)
         {
-            if (item == null)
+            if (film is null)
+            {
                 return;
+            }
 
-            await Shell.Current.GoToAsync($"{nameof(FilmDetailPage)}?{nameof(FilmDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(FilmDetailPage)}?{nameof(FilmDetailViewModel.FilmId)}={film.Id}");
         }
     }
 }

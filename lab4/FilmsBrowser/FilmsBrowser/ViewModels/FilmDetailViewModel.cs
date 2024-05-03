@@ -1,54 +1,56 @@
-﻿using System;
+﻿using FilmsBrowser.Config;
+using FilmsBrowser.Models;
+using Firebase.Database;
+using Firebase.Database.Query;
+using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace FilmsBrowser.ViewModels
 {
-    [QueryProperty(nameof(ItemId), nameof(ItemId))]
+    [QueryProperty(nameof(FilmId), nameof(FilmId))]
     public class FilmDetailViewModel : BaseViewModel
     {
-        private string itemId;
-        private string text;
-        private string description;
-        public string Id { get; set; }
+        private string filmId;
+        private Film film;
 
-        public string Text
+        public string FilmId
         {
-            get => text;
-            set => SetProperty(ref text, value);
+            get { return filmId; }
+            set
+            {
+                filmId = value;
+                LoadFilmId(filmId);
+            }
         }
 
-        public string Description
-        {
-            get => description;
-            set => SetProperty(ref description, value);
-        }
-
-        public string ItemId
+        public Film Film
         {
             get
             {
-                return itemId;
+                return film;
             }
             set
             {
-                itemId = value;
-                LoadItemId(value);
+                SetProperty(ref film, value);
             }
         }
 
-        public async void LoadItemId(string itemId)
+        public async void LoadFilmId(string itemId)
         {
             try
             {
-                var item = await DataStore.GetItemAsync(itemId);
-                Id = item.Id;
-                Text = item.Text;
-                Description = item.Description;
+                var firebaseClient = new FirebaseClient(MyFirebaseConfig.DatabaseLink, new FirebaseOptions
+                {
+                    AuthTokenAsyncFactory = () => Task.FromResult(MyFirebaseConfig.WebApiKey)
+                });
+
+                Film = await firebaseClient.Child("films").Child(filmId).OnceSingleAsync<Film>();
             }
             catch (Exception)
             {
-                Debug.WriteLine("Failed to Load Item");
+                Debug.WriteLine("Failed to Load Film");
             }
         }
     }

@@ -44,7 +44,7 @@ namespace FilmsBrowser.ViewModels
                 {
                     AuthTokenAsyncFactory = () => Task.FromResult(MyFirebaseConfig.WebApiKey)
                 });
-                await firebaseClient.Child("users").Child(MyFirebaseConfig.Uid).PostAsync(new Models.User()
+                await firebaseClient.Child("users").Child(MyFirebaseConfig.Uid).PutAsync(new Models.User()
                 {
                     Email = this.Email,
                     Login = this.Login
