@@ -22,11 +22,11 @@ namespace FilmsBrowser.ViewModels
             {
                 var authProvider = new FirebaseAuthProvider(new FirebaseConfig(MyFirebaseConfig.WebApiKey));
                 var authResult = await authProvider.SignInWithEmailAndPasswordAsync(Email, Password);
-                var user = authResult.User;
+                MyFirebaseConfig.Uid = authResult.User.LocalId;
             }
             catch
             {
-                await Application.Current.MainPage.DisplayAlert("Fail", "Invalid login or password", "OK");
+                await Application.Current.MainPage.DisplayAlert("Fail", "Incorrect credencials", "OK");
             }
 
             await Shell.Current.GoToAsync($"//{nameof(FilmsPage)}");

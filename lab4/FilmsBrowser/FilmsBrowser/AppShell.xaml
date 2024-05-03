@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:FilmsBrowser.Views"
+       xmlns:local="clr-namespace:FilmsBrowser.Views" xmlns:filmsbrowser="clr-namespace:FilmsBrowser" x:DataType="filmsbrowser:AppShell"
        Title="FilmsBrowser"
        x:Class="FilmsBrowser.AppShell">
-
-    <!--
-        The overall app visual hierarchy is defined here, along with navigation.
-    
-        https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
-    -->
 
     <Shell.Resources>
         <ResourceDictionary>
@@ -36,7 +30,7 @@
     </TabBar>
 
     <TabBar>
-        <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
-        <ShellContent Route="RegistrationPage" ContentTemplate="{DataTemplate local:RegistrationPage}" />
+        <ShellContent Title="Sign In" Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
+        <ShellContent Title="Sign Up" ContentTemplate="{DataTemplate local:RegistrationPage}" />
     </TabBar>
 </Shell>

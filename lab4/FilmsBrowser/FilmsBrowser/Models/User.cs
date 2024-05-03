@@ -13,6 +13,8 @@
         public string FavoredFilm { get; set; } = string.Empty;
         public string FavoredGenre { get; set; } = string.Empty;
 
+        public User() { }
+
         public User(string login, string email, string information, string username, string surname, string patronymic,
             string gender, string country, string favoredFilm, string favoredGenre)
         {

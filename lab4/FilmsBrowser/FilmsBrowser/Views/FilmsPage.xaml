@@ -4,7 +4,7 @@
              x:Class="FilmsBrowser.Views.FilmsPage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:FilmsBrowser.ViewModels"  
-             xmlns:model="clr-namespace:FilmsBrowser.Models"  
+             xmlns:model="clr-namespace:FilmsBrowser.Models" x:DataType="local:FilmsViewModel"
              x:Name="BrowseFilmsPage">
 
     <RefreshView x:DataType="local:FilmsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">

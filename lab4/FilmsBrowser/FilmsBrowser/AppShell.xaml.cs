@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace FilmsBrowser
 {
-    public partial class AppShell : Xamarin.Forms.Shell
+    public partial class AppShell : Shell
     {
         public AppShell()
         {
