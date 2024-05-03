@@ -70,7 +70,6 @@ namespace FilmsBrowser.ViewModels
             if (item == null)
                 return;
 
-            // This will push the FilmDetailPage onto the navigation stack
             await Shell.Current.GoToAsync($"{nameof(FilmDetailPage)}?{nameof(FilmDetailViewModel.ItemId)}={item.Id}");
         }
     }
