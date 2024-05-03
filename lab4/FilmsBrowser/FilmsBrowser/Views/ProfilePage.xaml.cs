@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using FilmsBrowser.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace FilmsBrowser.Views
 {
@@ -10,6 +8,7 @@ namespace FilmsBrowser.Views
         public ProfilePage()
         {
             InitializeComponent();
+            BindingContext = new ProfileViewModel();
         }
     }
 }

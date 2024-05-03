@@ -1,7 +1,4 @@
-﻿using FilmsBrowser.ViewModels;
-using FilmsBrowser.Views;
-using System;
-using System.Collections.Generic;
+﻿using FilmsBrowser.Views;
 using Xamarin.Forms;
 
 namespace FilmsBrowser

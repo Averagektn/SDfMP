@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FilmsBrowser.Models
+﻿namespace FilmsBrowser.Models
 {
     public class Item
     {

@@ -1,10 +1,6 @@
 ﻿using FilmsBrowser.Config;
 using FilmsBrowser.Views;
 using Firebase.Auth;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace FilmsBrowser.ViewModels
@@ -28,9 +24,11 @@ namespace FilmsBrowser.ViewModels
                 var authResult = await authProvider.SignInWithEmailAndPasswordAsync(Email, Password);
                 var user = authResult.User;
             }
-            catch (FirebaseAuthException ex)
+            catch
             {
+                await Application.Current.MainPage.DisplayAlert("Fail", "Invalid login or password", "OK");
             }
+
             await Shell.Current.GoToAsync($"//{nameof(FilmsPage)}");
         }
     }

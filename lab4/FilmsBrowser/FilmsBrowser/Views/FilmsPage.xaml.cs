@@ -1,20 +1,11 @@
-﻿using FilmsBrowser.Models;
-using FilmsBrowser.ViewModels;
-using FilmsBrowser.Views;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FilmsBrowser.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace FilmsBrowser.Views
 {
     public partial class FilmsPage : ContentPage
     {
-        FilmsViewModel _viewModel;
+        readonly FilmsViewModel _viewModel;
 
         public FilmsPage()
         {

@@ -1,5 +1,4 @@
 ﻿using FilmsBrowser.ViewModels;
-using System.ComponentModel;
 using Xamarin.Forms;
 
 namespace FilmsBrowser.Views

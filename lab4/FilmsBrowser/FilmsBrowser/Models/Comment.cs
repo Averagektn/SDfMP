@@ -1,10 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FilmsBrowser.Models
+﻿namespace FilmsBrowser.Models
 {
-    internal class Comment
+    public class Comment
     {
+        public string Author { get; set; }
+        public string Text { get; set; }
+
+        public Comment() : this(string.Empty, string.Empty) { }
+
+        public Comment(string author, string text)
+        {
+            Author = author;
+            Text = text;
+        }
     }
 }
