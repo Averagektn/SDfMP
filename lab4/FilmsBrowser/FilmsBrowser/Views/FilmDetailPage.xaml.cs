@@ -5,10 +5,18 @@ namespace FilmsBrowser.Views
 {
     public partial class FilmDetailPage : ContentPage
     {
+        readonly FilmDetailViewModel _viewModel;
+
         public FilmDetailPage()
         {
             InitializeComponent();
-            BindingContext = new FilmDetailViewModel();
+            BindingContext = _viewModel = new FilmDetailViewModel();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.OnAppearing();
         }
     }
 }

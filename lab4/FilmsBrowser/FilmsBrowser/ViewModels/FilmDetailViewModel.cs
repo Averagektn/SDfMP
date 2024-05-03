@@ -1,9 +1,12 @@
-﻿using FilmsBrowser.Config;
+﻿using FilmsBrowser.Cache;
+using FilmsBrowser.Config;
 using FilmsBrowser.Models;
 using Firebase.Database;
 using Firebase.Database.Query;
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -14,6 +17,8 @@ namespace FilmsBrowser.ViewModels
     {
         private string filmId;
         private Film film;
+        public ObservableCollection<Comment> Comments { get; }
+        public Command LoadCommentsCommand { get; }
 
         public string FilmId
         {
@@ -21,23 +26,23 @@ namespace FilmsBrowser.ViewModels
             set
             {
                 filmId = value;
-                LoadFilmId(filmId);
+                LoadFilmId();
             }
         }
 
         public Film Film
         {
-            get
-            {
-                return film;
-            }
-            set
-            {
-                SetProperty(ref film, value);
-            }
+            get => film;
+            set => SetProperty(ref film, value);
         }
 
-        public async void LoadFilmId(string itemId)
+        public FilmDetailViewModel()
+        {
+            Comments = new ObservableCollection<Comment>();
+            LoadCommentsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+        }
+
+        public async void LoadFilmId()
         {
             try
             {
@@ -52,6 +57,41 @@ namespace FilmsBrowser.ViewModels
             {
                 Debug.WriteLine("Failed to Load Film");
             }
+        }
+
+        async Task ExecuteLoadItemsCommand()
+        {
+            IsBusy = true;
+
+            try
+            {
+                Comments.Clear();
+
+                var firebaseClient = new FirebaseClient(MyFirebaseConfig.DatabaseLink, new FirebaseOptions
+                {
+                    AuthTokenAsyncFactory = () => Task.FromResult(MyFirebaseConfig.WebApiKey)
+                });
+                var filmsRequest = await firebaseClient.Child("comments").Child(filmId).OnceAsync<Comment>();
+                var comments = filmsRequest.Select(f => f.Object);
+
+                foreach (var comment in comments)
+                {
+                    Comments.Add(comment);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public void OnAppearing()
+        {
+            IsBusy = true;
         }
     }
 }
