@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodels="clr-namespace:FilmsBrowser.ViewModels" 
+             x:DataType="viewmodels:ProfileViewModel"
+             x:Class="FilmsBrowser.Views.ProfilePage">
+    <ContentPage.Content>
+        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
+            <Label Text="{Binding User.Email}" FontSize="Large" />
+            
+            <Entry Placeholder="Login" Text="{Binding User.Login}" Keyboard="Text" />
+            <Entry Placeholder="Information" Text="{Binding User.Information}" Keyboard="Text" />
+            <Entry Placeholder="Username" Text="{Binding User.Username}" Keyboard="Text" />
+            <Entry Placeholder="Surname" Text="{Binding User.Surname}" Keyboard="Text" />
+            <Entry Placeholder="Patronymic" Text="{Binding User.Patronymic}" Keyboard="Text" />
+            <Entry Placeholder="Contry" Text="{Binding User.Country}" Keyboard="Text" />
+            <Entry Placeholder="Gender" Text="{Binding User.Gender}" Keyboard="Text" />
+            <Entry Placeholder="Favored film" Text="{Binding User.FavoredFilm}" Keyboard="Text" />
+            <Entry Placeholder="Favored genre" Text="{Binding User.FavoredGenre}" Keyboard="Text" />
+            
+            <Button VerticalOptions="Center" Text="Update" BackgroundColor="Green" Command="{Binding Update}"/>
+            <Button VerticalOptions="Center" Text="Delete account" BackgroundColor="Red" Command="{Binding Delete}"/>
+            <Button VerticalOptions="Center" Text="Log out" BackgroundColor="Orange" Command="{Binding Logout}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -5,12 +5,12 @@ using Xamarin.Forms.Xaml;
 namespace FilmsBrowser.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class RegistrationPage : ContentPage
     {
-        public LoginPage()
+        public RegistrationPage()
         {
             InitializeComponent();
-            BindingContext = new LoginViewModel();
+            BindingContext = new RegistrationViewModel();
         }
     }
 }

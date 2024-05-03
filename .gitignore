@@ -7,3 +7,5 @@
 *.DS_Store
 *.exe
 *.png
+lab4/FilmsBrowser/FilmsBrowser.Android/google-services.json
+lab4/FilmsBrowser/FilmsBrowser/Config/MyFirebaseConfig.cs

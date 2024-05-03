@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodels="clr-namespace:FilmsBrowser.ViewModels" 
+             xmlns:local="clr-namespace:FilmsBrowser.ViewModels"  
+             xmlns:model="clr-namespace:FilmsBrowser.Models" 
+             x:Class="FilmsBrowser.Views.FilmDetailPage"
+             Title="{Binding Title}">
+
+    <StackLayout Spacing="20" Padding="15">
+        <Label Text="{Binding Film.Name}" FontSize="Large"/>
+
+        <CarouselView x:Name="Carousel">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding Source}"/>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <Label Text="{Binding Film.CategoriesString}" FontSize="Medium"/>
+        <Label Text="Description:" FontSize="Header" />
+        <Label Text="{Binding Film.Description}" FontSize="Small"/>
+        <RefreshView x:DataType="local:FilmDetailViewModel" Command="{Binding LoadCommentsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Grid.Row="1">
+            <CollectionView x:Name="ItemsListView"
+                    ItemsSource="{Binding Comments}"
+                    SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" x:DataType="model:Comment">
+                            <Label Text="{Binding Author}" 
+                                LineBreakMode="NoWrap" 
+                                Style="{DynamicResource ListItemTextStyle}" 
+                                FontSize="16" />
+                            <Label Text="{Binding Text}" 
+                                LineBreakMode="NoWrap"
+                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                FontSize="13" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <Entry Placeholder="Comment..." Text="{Binding CommentText}" Keyboard="Text" />
+        <Button VerticalOptions="Center" Text="Leave comment" Command="{Binding LeaveComment}"/>
+    </StackLayout>
+
+</ContentPage>
