@@ -33,6 +33,7 @@ namespace FilmsBrowser.ViewModels
         {
             Films.Clear();
             var found = FilmCache.Films.Values.Where(f => f.Name.ToLower().Contains(SearchText.ToLower()));
+
             foreach (var film in found)
             {
                 Films.Add(film);

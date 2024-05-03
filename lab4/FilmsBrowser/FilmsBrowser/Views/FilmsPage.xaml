@@ -4,7 +4,8 @@
              x:Class="FilmsBrowser.Views.FilmsPage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:FilmsBrowser.ViewModels"  
-             xmlns:model="clr-namespace:FilmsBrowser.Models" x:DataType="local:FilmsViewModel"
+             xmlns:model="clr-namespace:FilmsBrowser.Models" 
+             x:DataType="local:FilmsViewModel"
              x:Name="BrowseFilmsPage">
 
     <Grid>

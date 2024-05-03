@@ -1,5 +1,4 @@
-﻿using FilmsBrowser.Services;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace FilmsBrowser
 {
@@ -9,8 +8,6 @@ namespace FilmsBrowser
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }
 
