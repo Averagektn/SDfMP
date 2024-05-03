@@ -6,7 +6,7 @@
              x:Class="FilmsBrowser.Views.ProfilePage">
     <ContentPage.Content>
         <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Label Text="{Binding User.Email}" FontSize="Body" />
+            <Label Text="{Binding User.Email}" FontSize="Large" />
             
             <Entry Placeholder="Login" Text="{Binding User.Login}" Keyboard="Text" />
             <Entry Placeholder="Information" Text="{Binding User.Information}" Keyboard="Text" />

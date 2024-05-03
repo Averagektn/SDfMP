@@ -39,6 +39,7 @@ namespace FilmsBrowser.ViewModels
                 var authProvider = new FirebaseAuthProvider(new FirebaseConfig(MyFirebaseConfig.WebApiKey));
                 var authResult = await authProvider.CreateUserWithEmailAndPasswordAsync(Email, Password);
                 MyFirebaseConfig.Uid = authResult.User.LocalId;
+                MyFirebaseConfig.FirebaseToken = authResult.FirebaseToken;
 
                 var firebaseClient = new FirebaseClient(MyFirebaseConfig.DatabaseLink, new FirebaseOptions
                 {
@@ -49,7 +50,6 @@ namespace FilmsBrowser.ViewModels
                     Email = this.Email,
                     Login = this.Login
                 });
-
 
                 await Shell.Current.GoToAsync($"//{nameof(FilmsPage)}");
             }
