@@ -1,6 +1,5 @@
 ﻿using FilmsBrowser.Models;
 using System.Collections.Generic;
-using Xamarin.Essentials;
 
 namespace FilmsBrowser.Cache
 {
@@ -8,25 +7,27 @@ namespace FilmsBrowser.Cache
     {
         public static Dictionary<string, Film> Films = new Dictionary<string, Film>();
         public static Dictionary<string, Film> FavoredFilms = new Dictionary<string, Film>();
+        public static string Uid = string.Empty;
+        public static string FirebaseToken = string.Empty;
 
         public static readonly Dictionary<string, List<string>> StorageLinks = new Dictionary<string, List<string>>()
         {
             {
-                "-NtSNsLQQe3ET8K7E2Di", 
-                new List<string>() 
-                { 
-                    "1611978.webp", 
-                    "unnamed.webp", 
-                    "Captain.jpg", 
-                    "Catpain1.jpg", 
-                    "Catpain2.jpg", 
-                    "81UBDps8YpL._AC_UF1000,1000_QL80_.jpg", 
-                    "The-Captain.jpg" 
-                } 
+                "-NtSNsLQQe3ET8K7E2Di",
+                new List<string>()
+                {
+                    "1611978.webp",
+                    "unnamed.webp",
+                    "Captain.jpg",
+                    "Catpain1.jpg",
+                    "Catpain2.jpg",
+                    "81UBDps8YpL._AC_UF1000,1000_QL80_.jpg",
+                    "The-Captain.jpg"
+                }
             },
             {
-                "-NtSNsLWaHZDxdBOkIEM", 
-                new List<string>() 
+                "-NtSNsLWaHZDxdBOkIEM",
+                new List<string>()
                 {
                     "123Untitled.jpg",
                     "43Untitled.jpg",
@@ -35,11 +36,11 @@ namespace FilmsBrowser.Cache
                     "Untitled.jpg",
                     "mitchell-netes-144.jpg",
                     "the-hunt.jpg"
-                } 
+                }
             },
             {
-                "-NtSNsLX9gs0GZxlsHZu", 
-                new List<string>() 
+                "-NtSNsLX9gs0GZxlsHZu",
+                new List<string>()
                 {
                     "killers-of-the-flower-moon-9781398513341_hr.jpg",
                     "Untitled.jpg",
@@ -48,11 +49,11 @@ namespace FilmsBrowser.Cache
                     "57Untitled.jpg",
                     "21killers-cameos-articleLarge.webp",
                     "Killers_Of_The_Flower_Moon_Photo_0108.jpg"
-                } 
+                }
             },
             {
-                "-NtSNsLY8LkJMr-kd7WF", 
-                new List<string>() 
+                "-NtSNsLY8LkJMr-kd7WF",
+                new List<string>()
                 {
                     "12554Untitled.jpg",
                     "78Untitled.jpg",
@@ -61,11 +62,11 @@ namespace FilmsBrowser.Cache
                     "images.jpg",
                     "original.avif",
                     "the-lighthouse-movie-poster.jpg\r\n"
-                } 
+                }
             },
             {
-                "-NtSNsLZFIk-tMn1mQQd", 
-                new List<string>() 
+                "-NtSNsLZFIk-tMn1mQQd",
+                new List<string>()
                 {
                     "Untitled.jpg",
                     "Oppenheimer_(film).jpg.webp",
@@ -74,7 +75,7 @@ namespace FilmsBrowser.Cache
                     "678Untitled.jpg",
                     "6544Untitled.jpg",
                     "56789images.jpg"
-                } 
+                }
             }
         };
     }

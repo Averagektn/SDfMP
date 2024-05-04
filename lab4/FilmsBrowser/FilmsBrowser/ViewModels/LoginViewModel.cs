@@ -1,4 +1,5 @@
-﻿using FilmsBrowser.Config;
+﻿using FilmsBrowser.Cache;
+using FilmsBrowser.Config;
 using FilmsBrowser.Views;
 using Firebase.Auth;
 using Xamarin.Forms;
@@ -22,8 +23,8 @@ namespace FilmsBrowser.ViewModels
             {
                 var authProvider = new FirebaseAuthProvider(new FirebaseConfig(MyFirebaseConfig.WebApiKey));
                 var authResult = await authProvider.SignInWithEmailAndPasswordAsync(Email, Password);
-                MyFirebaseConfig.Uid = authResult.User.LocalId;
-                MyFirebaseConfig.FirebaseToken = authResult.FirebaseToken;
+                FilmCache.Uid = authResult.User.LocalId;
+                FilmCache.FirebaseToken = authResult.FirebaseToken;
                 await Shell.Current.GoToAsync($"//{nameof(FilmsPage)}");
             }
             catch

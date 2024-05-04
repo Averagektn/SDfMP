@@ -31,7 +31,7 @@ namespace FilmsBrowser.Views
             var collection = new ObservableCollection<Image>();
             try
             {
-                
+
                 var downloadUrl = await storage
                     .Child("film_images")
                     .Child(_viewModel.FilmId)
