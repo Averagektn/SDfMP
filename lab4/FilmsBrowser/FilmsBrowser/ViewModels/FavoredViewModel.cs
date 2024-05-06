@@ -3,15 +3,14 @@ using FilmsBrowser.Config;
 using FilmsBrowser.Models;
 using FilmsBrowser.Views;
 using Firebase.Database;
+using Firebase.Database.Query;
+using System;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using System;
-using Xamarin.Forms;
 using System.Linq;
-using System.Collections.Generic;
-using Firebase.Database.Query;
-using System.Collections.Immutable;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace FilmsBrowser.ViewModels
 {
@@ -71,7 +70,7 @@ namespace FilmsBrowser.ViewModels
                         return f.Object;
                     });
 
-                    var favoredRequest = await firebaseClient.Child("favored").Child(MyFirebaseConfig.Uid).OnceAsync<string>();
+                    var favoredRequest = await firebaseClient.Child("favored").Child(FilmCache.Uid).OnceAsync<string>();
                     var favored = favoredRequest.Select(f => f.Object).ToImmutableHashSet();
 
                     foreach (var film in films)

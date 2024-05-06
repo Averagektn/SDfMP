@@ -1,8 +1,4 @@
-﻿using System.IO;
-using System.Linq;
-using Xamarin.Forms;
-
-namespace FilmsBrowser.Models
+﻿namespace FilmsBrowser.Models
 {
     public class Film
     {

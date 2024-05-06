@@ -25,12 +25,12 @@
 
     <TabBar>
         <ShellContent Title="Films" Route="FilmsPage" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:FilmsPage}" />
-        <ShellContent Title="Profile" Icon="icon_about.png" ContentTemplate="{DataTemplate local:ProfilePage}" />
-        <ShellContent Title="Favored" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:FavoredPage}" />
+        <ShellContent Title="Profile" Route="ProfilePage" Icon="icon_about.png" ContentTemplate="{DataTemplate local:ProfilePage}" />
+        <ShellContent Title="Favored" Route="FavoredPage" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:FavoredPage}" />
     </TabBar>
 
     <TabBar>
         <ShellContent Title="Sign In" Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
-        <ShellContent Title="Sign Up" ContentTemplate="{DataTemplate local:RegistrationPage}" />
+        <ShellContent Title="Sign Up" Route="RegistrationPage" ContentTemplate="{DataTemplate local:RegistrationPage}" />
     </TabBar>
 </Shell>
